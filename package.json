@@ -1,0 +1,14 @@
+{
+  "name": "apma-api",
+  "description": "A Property Management App",
+  "version": "1.0.0",
+  "devDependencies": {
+    "concurrently": "^6.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/apma-org/apma"
+  },
+  "author": "apma-org",
+  "license": "MIT"
+}
