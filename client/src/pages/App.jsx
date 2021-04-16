@@ -3,7 +3,12 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { Header } from '../components/Header';
 import { NavBar } from '../components/NavBar';
 import { About } from './About';
-import "../styles/App.css";
+import { Login } from './Login';
+import { Properties } from './Properties';
+import { Property } from './Property';
+import { SignUp } from './SignUp';
+import { Unit } from './Unit';
+
 import axios from "axios";
 
 const App = () => {
@@ -26,17 +31,16 @@ const App = () => {
       <NavBar/>
       <Header />
       <BrowserRouter>
-            {/* <UserContext.Provider value={{ user, userData }}> */}
-              {/* <Navbar logoutHandler={handleLogout} /> */}
-              
-              <Switch>
-                <Route path="/about" component={About} />
-                <Route path="/header" component={Header} />
-                {/* <Route path="/" component={Home} />  */}
-              </Switch>
-              {/* <Footer /> */}
-            {/* </UserContext.Provider> */}
-          </BrowserRouter>
+          <Switch>
+            <Route path="/about" component={About} />
+            <Route path="/header" component={Header} />
+            <Route path="/login" component={Login} />
+            <Route path="/register" component={SignUp} />
+            <Route path="/property" component={Property} />
+            <Route path="/properties" component={Properties} />
+            <Route path="/unit" component={Unit} />
+          </Switch>
+      </BrowserRouter>
     </div>
   );
 };

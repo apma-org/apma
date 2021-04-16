@@ -3,7 +3,7 @@ import React from 'react';
 // Nav Body
 export const NavBar = () => {
   return (
-    <nav className="relative flex flex-wrap items-center justify-between px-2 py-3 rounded shadow-md">
+    <nav className="font-sans relative flex flex-wrap items-center justify-between px-2 py-3 rounded shadow-md">
       <div className="container px-4 mx-auto flex flex-wrap items-center justify-between">
         <div className="w-full relative flex justify-between lg:w-auto px-4 lg:static lg:block lg:justify-start">
           <a className="text-sm leading-relaxed inline-block mr-4 py-2 whitespace-nowrap uppercase" href="/">
@@ -22,18 +22,18 @@ const NavList = () => (
   <div className="flex lg:flex-grow items-center" >
     <ul className="flex flex-col lg:flex-row list-none ml-auto">
       <li className="nav-item">
-        <a className="px-3 py-2 flex items-center text-xs uppercase leading-snug text-white hover:opacity-75" href="/">
-          Home
+        <a className="px-3 py-2 flex items-center text-xs uppercase leading-snug text-white hover:opacity-75" href="/register">
+          Sign Up
+        </a>
+      </li>
+      <li className="nav-item">
+        <a className="px-3 py-2 flex items-center text-xs uppercase leading-snug text-white hover:opacity-75" href="/login">
+          Login
         </a>
       </li>
       <li className="nav-item">
         <a className="px-3 py-2 flex items-center text-xs uppercase leading-snug text-white hover:opacity-75" href="/about">
           About
-        </a>
-      </li>
-      <li className="nav-item">
-        <a className="px-3 py-2 flex items-center text-xs uppercase leading-snug text-white hover:opacity-75" href="#pablo">
-          Settings
         </a>
       </li>
     </ul>

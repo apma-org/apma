@@ -20,7 +20,7 @@ module.exports = {
       transparent: "transparent",
     },
     fontFamily: {
-      sans: ["Graphik", "sans-serif"],
+      sans: ["Segoe UI", "Roboto", "Helvetica Neue", "Arial", "Noto Sans"],
       serif: ["Merriweather", "serif"],
     },
     extend: {
