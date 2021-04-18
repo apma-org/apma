@@ -14,13 +14,27 @@ module.exports = {
     colors: {
       gray: colors.coolGray,
       blue: colors.lightBlue,
-      green: colors.green,
+      greens: colors.green,
+      green: {
+        100: "#98b7ac",
+        200: "rgb(113 142 131)",
+        300: "rgb(102 128 119)",
+      },
       red: colors.rose,
       pink: colors.fuchsia,
       transparent: "transparent",
+      beige: "#e4d8ca",
+      white: "#FFF",
     },
     fontFamily: {
-      sans: ["Segoe UI", "Roboto", "Helvetica Neue", "Arial", "Noto Sans"],
+      sans: [
+        "Montserrat",
+        "Segoe UI",
+        "Roboto",
+        "Helvetica Neue",
+        "Arial",
+        "Noto Sans",
+      ],
       serif: ["Merriweather", "serif"],
     },
     extend: {
