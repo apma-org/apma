@@ -1,17 +1,20 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 
-export const PropertyCard = () => {
-  const [maintenanceRequests, setMaintenanceRequests] = useState(2);
-  const [monthlyProfits, setMonthlyProfits] = useState(2000);
-
+export const PropertyCard = ({ maintenanceRequests, monthlyProfits }) => {
   return (
-    <div>
+    <div className="text-black bg-blue-300 w-30">
       {/* Click Navigation */}
-      <img src="#blob" alt="property-image"/>
-      123 Bob Avenue
-      Pending Requests {maintenanceRequests}
+      <img src="#blob" alt="property-image" />
+      123 Bob Avenue Pending Requests {maintenanceRequests.length}
+      <div>
+        {maintenanceRequests &&
+          maintenanceRequests.map((e, idx) => {
+            <p>
+              Request #{idx}, "{e.request}"
+            </p>;
+          })}
+      </div>
       Monthly Profit ${monthlyProfits}
     </div>
   );
 };
-
