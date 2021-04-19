@@ -47,15 +47,19 @@ export const Properties = () => {
   ]);
 
   return (
-    <div className="max-w-full text-black m-7 px-5 py-10 rounded-xl shadow-xl">
-      <h3 className="text-xl block justify-center text-center">Properties</h3>
-      <button className="bg-green-200 rounded-3xl p-3.5 hover:bg-green-300 text-white">
-        Add New Property
-      </button>
-      <h3>Total Profits: ${totalProfits} / month</h3>
-      <div className="bg-pink-100 text-black grid justify-items-stretch">
-        ljhbl
-        {console.log("properties", properties)}
+    <div className="max-w-full text-black m-10 px-5 py-10 rounded-xl shadow-xl">
+      <div className="flex flex-row space-x-20 justify-center">
+        <h3 className="text-xl block justify-center text-center m-4">
+          Properties
+        </h3>
+        <h3 className="text-xl block justify-center text-center m-4">
+          Total Profits: ${totalProfits} / month
+        </h3>
+        <button className="bg-green-200 rounded-3xl p-2.5 hover:bg-green-300 text-white m-8">
+          Add Property
+        </button>
+      </div>
+      <div className="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 grid-cols-1 gap-4 px-4">
         {properties != null &&
           properties.map((e) => (
             <PropertyCard
