@@ -8,24 +8,16 @@ export const PropertyCard = ({
   monthlyProfits,
 }) => {
   return (
-    <div className="bg-gray-100 border-indigo-600 dark:bg-gray-800 bg-opacity-95 border-opacity-60 | p-4 border-solid rounded-3xl border-2 | flex justify-around cursor-pointer | hover:bg-indigo-400 dark:hover:bg-indigo-600 hover:border-transparent | transition-colors duration-500">
-      <img
-        className="w-16 h-16 object-cover"
-        src={property}
-        alt="property-image"
-      />
+    <button className="bg-gray-100 text-justify shadow-xl bg-opacity-95 flex justify-around cursor-pointer p-6 rounded-lg hover:bg-gray-200">
+      <img className="w-16 h-16 object-cover" src={property} alt="property" />
       <div className="flex flex-col justify-center">
-        <p className="text-gray-900 dark:text-gray-300 font-semibold">
-          {address}
+        <p className="font-bold">{address}</p>
+        <p className="text-sm">
+          Pending Requests: {maintenanceRequests.length}
         </p>
-        <p className="text-black dark:text-gray-100 text-justify font-semibold">
-          Pending Requests {maintenanceRequests.length}
-        </p>
-        <p className="text-black dark:text-gray-100 text-justify font-semibold">
-          Monthly Profit ${monthlyProfits}
-        </p>
+        <p className="text-sm">Monthly Profit: ${monthlyProfits}</p>
       </div>
-    </div>
+    </button>
   );
 };
 
