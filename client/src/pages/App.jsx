@@ -4,10 +4,14 @@ import { Header } from "../components/Header";
 import { NavBar } from "../components/NavBar";
 import { About } from "./About";
 import { Login } from "./Login";
+import { SignUp } from "./SignUp";
 import { Properties } from "./Properties";
 import { Property } from "./Property";
-import { SignUp } from "./SignUp";
+import { NewProperty } from "./NewProperty";
+import { EditProperty } from "./EditProperty";
 import { Unit } from "./Unit";
+import { NewUnit } from "./NewUnit";
+import { EditUnit } from "./EditUnit";
 
 import axios from "axios";
 
@@ -28,17 +32,23 @@ const App = () => {
 
   return (
     <div className="App">
-      <NavBar />
-      <Header title={`APMA`} />
       <BrowserRouter>
+        <NavBar />
+        <Header title={`APMA`} />
         <Switch>
           <Route path="/about" component={About} />
           <Route path="/header" component={Header} />
           <Route path="/login" component={Login} />
           <Route path="/register" component={SignUp} />
-          <Route path="/property" component={Property} />
           <Route path="/properties" component={Properties} />
+          <Route path="/property" component={Property} />
+          {/* <Route path="/properties/:propertyId" children={<Property />} /> */}
+          <Route path="/addProperty" component={NewProperty} />
+          <Route path="/editProperty" component={EditProperty} />
+          <Route path="/addUnit" component={NewUnit} />
+          <Route path="/editUnit" component={EditUnit} />
           <Route path="/unit" component={Unit} />
+          {/* <Route path="/unit/:unitId" component={Unit} /> */}
         </Switch>
       </BrowserRouter>
     </div>
