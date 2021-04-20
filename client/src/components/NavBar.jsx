@@ -1,4 +1,5 @@
 import React from "react";
+import { Link, useHistory } from "react-router-dom";
 
 // Nav Body
 export const NavBar = () => {
@@ -6,12 +7,12 @@ export const NavBar = () => {
     <nav className="font-sans text-green-300 font-extrabold relative flex flex-wrap items-center justify-between px-2 py-3 rounded shadow-md">
       <div className="container px-4 mx-auto flex flex-wrap items-center justify-between">
         <div className="w-full relative flex justify-between lg:w-auto px-4 lg:static lg:block lg:justify-start">
-          <a
-            className="text-base leading-relaxed inline-block mr-4 py-2 whitespace-nowrap uppercase"
-            href="/"
+          <Link
+            className="px-3 py-2 flex items-center uppercase leading-snug  hover:opacity-75"
+            to="/"
           >
             APMA
-          </a>
+          </Link>
           <Menu />
         </div>
         <NavList />
@@ -24,29 +25,29 @@ export const NavBar = () => {
 const NavList = () => (
   <div className="flex lg:flex-grow items-center">
     <ul className="flex flex-col text-base lg:flex-row list-none ml-auto">
-      <li className="nav-item">
-        <a
+      <li>
+        <Link
           className="px-3 py-2 flex font-black items-center uppercase leading-snug  hover:opacity-75"
-          href="/register"
+          to="/register"
         >
           Sign Up
-        </a>
+        </Link>
       </li>
-      <li className="nav-item">
-        <a
+      <li>
+        <Link
           className="px-3 py-2 flex items-center uppercase leading-snug  hover:opacity-75"
-          href="/login"
+          to="/login"
         >
           Login
-        </a>
+        </Link>
       </li>
-      <li className="nav-item">
-        <a
+      <li>
+        <Link
           className="px-3 py-2 flex items-center uppercase leading-snug hover:opacity-75"
-          href="/about"
+          to="/about"
         >
           About
-        </a>
+        </Link>
       </li>
     </ul>
   </div>
