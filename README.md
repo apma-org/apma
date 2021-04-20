@@ -12,13 +12,13 @@ Node >= Version 12.0.0
 
 ## Tech Stack
 
-React [Functional]
-Node
-Express
-MySQL
-Azure
+- React [Functional]
+- Node
+- Express
+- MySQL
+- Azure
 
 ## Contributors
 
-[Shania Dhani](https://github.com/sdhani)
-[Jordan Yaqoob](https://github.com/jordan722)
+- [Shania Dhani](https://github.com/sdhani)
+- [Jordan Yaqoob](https://github.com/jordan722)
