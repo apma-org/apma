@@ -1,11 +1,11 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import UserContext from "../context/UserContext";
 import { useHistory } from "react-router-dom";
 import { login } from "../utils/services";
 
 export const Login = () => {
   const history = useHistory();
-  const { updateUser } = useContext(UserContext);
+  const { user, updateUser } = useContext(UserContext);
   const [loginInfo, setLoginInfo] = useState({});
 
   const handleChange = (e) => {
@@ -17,17 +17,26 @@ export const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("login", loginInfo);
-    const user = await login(loginInfo);
-    if (user.status !== 400) {
-      console.log("user", user);
+    const userRes = await login(loginInfo);
+    if (userRes && userRes.status === 200) {
       // Update User Context
-      updateUser(user); // TODO: Double Check Syncing
+      console.log("user", userRes);
+      updateUser(userRes);
+      localStorage.setItem("currentUserId", userRes.data.id);
+      localStorage.setItem("currentUserType", `${loginInfo.type}`);
+      localStorage.setItem(
+        "currentUserName",
+        `${userRes.data.first_name} ${userRes.data.last_name}`
+      );
       history.push("/properties");
     } else {
       console.log("ERRRR not logged in");
     }
   };
+
+  useEffect(() => {
+    console.log("LOGIN(&^", user);
+  }, [user]);
 
   return (
     <div className="max-w-lg text-white mx-auto bg-green-100 px-5 py-10 rounded-xl shadow-xl">
