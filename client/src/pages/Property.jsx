@@ -23,7 +23,7 @@ export const Property = ({
   };
 
   const handleAddUnit = () => {
-    history.push("/addUnit");
+    history.push(`/addUnit/${pid}`);
   };
 
   console.log("1PROPUSER23283U9", pid);
