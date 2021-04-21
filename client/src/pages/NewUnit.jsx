@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
+import { addUnit } from "../utils/services";
+import UserContext from "../context/UserContext";
 
 export const NewUnit = () => {
   const history = useHistory();
+  const { user } = useContext(UserContext);
   const [unitInfo, setUnitInfo] = useState({});
 
   // TODO: Grab OwnerId
@@ -18,8 +21,12 @@ export const NewUnit = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("unit info", unitInfo);
+    const success = await addUnit({
+      ...unitInfo,
+      landowner_id: user.id,
+    });
+    console.log("added property /NewProperty", success);
     history.push("/unit");
-    // history.push("/property/##");
   };
 
   // TODO: Input fields

@@ -7,36 +7,36 @@ export const Property = () => {
   const history = useHistory();
   const { propertyId } = useParams();
   const [totalProfits, setTotalProfits] = useState(8298.23);
-  const [units, setUnits] = useState([
-    {
-      rent: 5000,
-      occupied: true,
-      tenantName: "Bob",
-      maintenanceRequests: 0,
-      unpaid: 100,
-    },
-    {
-      rent: 2000,
-      occupied: true,
-      tenantName: "Trudy",
-      maintenanceRequests: 0,
-      unpaid: 1000,
-    },
-    {
-      rent: 1000,
-      occupied: true,
-      tenantName: "Ever",
-      maintenanceRequests: 0,
-      unpaid: 500,
-    },
-    {
-      rent: 5500,
-      occupied: true,
-      tenantName: "Marley",
-      maintenanceRequests: 0,
-      unpaid: 0,
-    },
-  ]);
+  // const [units, setUnits] = useState([
+  //   {
+  //     rent: 5000,
+  //     occupied: true,
+  //     tenantName: "Bob",
+  //     maintenanceRequests: 0,
+  //     unpaid: 100,
+  //   },
+  //   {
+  //     rent: 2000,
+  //     occupied: true,
+  //     tenantName: "Trudy",
+  //     maintenanceRequests: 0,
+  //     unpaid: 1000,
+  //   },
+  //   {
+  //     rent: 1000,
+  //     occupied: true,
+  //     tenantName: "Ever",
+  //     maintenanceRequests: 0,
+  //     unpaid: 500,
+  //   },
+  //   {
+  //     rent: 5500,
+  //     occupied: true,
+  //     tenantName: "Marley",
+  //     maintenanceRequests: 0,
+  //     unpaid: 0,
+  //   },
+  // ]);
 
   // TODO: Abstract to a component, and pass along property details
   // TODO: Look into useParams as alt.

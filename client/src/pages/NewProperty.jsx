@@ -21,22 +21,13 @@ export const NewProperty = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("property info", propertyInfo);
-    history.push("/property");
-    // history.push("/property/##");
-  };
-
-  const addNewProperty = async () => {
     const success = await addProperty({
       ...propertyInfo,
       landowner_id: user.id,
     });
-
     console.log("added property /NewProperty", success);
+    history.push("/property");
   };
-
-  useEffect(() => {
-    addNewProperty();
-  }, []);
 
   // TODO: Input fields
   return (

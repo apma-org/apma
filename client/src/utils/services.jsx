@@ -37,7 +37,7 @@ export const login = async (loginInfo) => {
 export const getLandowner = async (landownerId) => {
   const user = await axios.get(`${baseUrl}landowner/${landownerId}`);
 
-  if (user.id === null) {
+  if (!user.id) {
     console.log("Something went wrong");
     return;
   } else {
@@ -47,12 +47,47 @@ export const getLandowner = async (landownerId) => {
 
 /* Landowner Function */
 export const addProperty = async (propertyInfo) => {
-  const user = await axios.get(`${baseUrl}property`);
+  const property = await axios.post(`${baseUrl}property`, { ...propertyInfo });
 
-  if (user.id === null) {
+  if (!property.id) {
     console.log("Something went wrong");
     return;
   } else {
-    return user;
+    return property;
+  }
+};
+
+export const editProperty = async (propertyInfo, propertyId) => {
+  const property = await axios.put(`${baseUrl}property/${propertyId}`, {
+    ...propertyInfo,
+  });
+
+  if (!property.id) {
+    console.log("Something went wrong");
+    return;
+  } else {
+    return property;
+  }
+};
+
+export const getUnit = async (unitId) => {
+  const unit = await axios.get(`${baseUrl}unit/${unitId}`);
+
+  if (!unit.id) {
+    console.log("Something went wrong");
+    return;
+  } else {
+    return unit;
+  }
+};
+
+export const addUnit = async (unitInfo) => {
+  const unit = await axios.post(`${baseUrl}unit`, { ...unitInfo });
+
+  if (!unit.property_id) {
+    console.log("Something went wrong");
+    return;
+  } else {
+    return unit;
   }
 };
