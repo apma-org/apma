@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import UserContext from "../context/UserContext";
 import { useHistory } from "react-router-dom";
+import { login } from "../utils/services";
 
 export const Login = () => {
   const history = useHistory();
+  const { updateUser } = useContext(UserContext);
   const [loginInfo, setLoginInfo] = useState({});
 
   const handleChange = (e) => {
@@ -15,12 +18,15 @@ export const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("login", loginInfo);
-    // const { user, error } = await loginUser(loginInfo);
-    // if (user) {
-    history.push("/properties");
-    // } else {
-    // console.log("ERRRR");
-    // }
+    const user = await login(loginInfo);
+    if (user.status !== 400) {
+      console.log("user", user);
+      // Update User Context
+      updateUser(user); // TODO: Double Check Syncing
+      history.push("/properties");
+    } else {
+      console.log("ERRRR not logged in");
+    }
   };
 
   return (
@@ -30,6 +36,20 @@ export const Login = () => {
       </div>
 
       <form onSubmit={handleSubmit}>
+        <div className="mt-5">
+          <label>
+            Are you a Tenant or a Landowner?
+            <select
+              className="text-gray-900 block w-full p-2 border-none rounded-lg mb-6"
+              name="type"
+              required
+              onChange={handleChange}
+            >
+              <option value="TENANT">Tenant</option>
+              <option value="LANDOWNER">Landowner</option>
+            </select>
+          </label>
+        </div>
         <div className="mt-5">
           <label>Email</label>
           <input

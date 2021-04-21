@@ -1,61 +1,75 @@
-import React, { useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { PropertyCard } from "../components/PropertyCard";
 import { useHistory } from "react-router-dom";
+import UserContext from "../context/UserContext";
+import { getLandowner } from "../utils/services";
 
 export const Properties = () => {
   const history = useHistory();
+  const { user } = useContext(UserContext);
   const [totalProfits, setTotalProfits] = useState(8298.23);
-  const [properties, setProperties] = useState([
-    {
-      address: "123 Bob Avenue",
-      maintenanceRequests: [
-        {
-          request: "Water heater is broken",
-        },
-        { request: "Sink is broken" },
-      ],
-      monthlyProfits: 4000,
-    },
-    {
-      address: "123 Mockingjay Street",
-      maintenanceRequests: [
-        {
-          request: "The Lights are flickering",
-        },
-      ],
-      monthlyProfits: 3000,
-    },
-    {
-      address: "Terrance Avenue",
-      maintenanceRequests: [
-        {
-          request: "The kitchen needs to be repainted",
-        },
-        { request: "The cabinet door is broken" },
-        { request: "The window needs washing" },
-      ],
-      monthlyProfits: 2500,
-    },
-    {
-      address: "123 Neverland",
-      maintenanceRequests: [
-        {
-          request: "The garden needs to be planted",
-        },
-        { request: "There is no hot water." },
-      ],
-      monthlyProfits: 5450,
-    },
-    {
-      address: "123 Narnia",
-      maintenanceRequests: [],
-      monthlyProfits: 7450,
-    },
-  ]);
+  const [properties, setProperties] = useState([]);
+  // const [properties, setProperties] = useState([
+  //   {
+  //     address: "123 Bob Avenue",
+  //     maintenanceRequests: [
+  //       {
+  //         request: "Water heater is broken",
+  //       },
+  //       { request: "Sink is broken" },
+  //     ],
+  //     monthlyProfits: 4000,
+  //   },
+  //   {
+  //     address: "123 Mockingjay Street",
+  //     maintenanceRequests: [
+  //       {
+  //         request: "The Lights are flickering",
+  //       },
+  //     ],
+  //     monthlyProfits: 3000,
+  //   },
+  //   {
+  //     address: "Terrance Avenue",
+  //     maintenanceRequests: [
+  //       {
+  //         request: "The kitchen needs to be repainted",
+  //       },
+  //       { request: "The cabinet door is broken" },
+  //       { request: "The window needs washing" },
+  //     ],
+  //     monthlyProfits: 2500,
+  //   },
+  //   {
+  //     address: "123 Neverland",
+  //     maintenanceRequests: [
+  //       {
+  //         request: "The garden needs to be planted",
+  //       },
+  //       { request: "There is no hot water." },
+  //     ],
+  //     monthlyProfits: 5450,
+  //   },
+  //   {
+  //     address: "123 Narnia",
+  //     maintenanceRequests: [],
+  //     monthlyProfits: 7450,
+  //   },
+  // ]);
 
   const handleAddForm = () => {
     history.push("/addProperty");
   };
+
+  const getUser = async () => {
+    const u = await getLandowner(user.id);
+    setProperties(u.properties);
+    console.log("Properties file user", u);
+  };
+
+  useEffect(() => {
+    getUser();
+  }, []);
 
   return (
     <div className="max-w-full text-black m-10 px-5 py-5 rounded-xl shadow-xl">

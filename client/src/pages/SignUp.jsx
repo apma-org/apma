@@ -1,26 +1,38 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import UserContext from "../context/UserContext";
 import { useHistory } from "react-router-dom";
+import { register, login } from "../utils/services";
 
 export const SignUp = () => {
   const history = useHistory();
-  const [loginInfo, setLoginInfo] = useState({});
+  const { updateUser } = useContext(UserContext);
+  const [registerInfo, setRegisterInfo] = useState({
+    type: "TENANT",
+  });
+  // const [userType, setUserType] = useState("Select a User Type");
 
-  const handleChange = (e) => {
-    setLoginInfo({
-      ...loginInfo,
-      [e.target.name]: e.target.value,
-    });
+  const handleChange = ({ target: { name, value } }) => {
+    setRegisterInfo((prevState) => ({ ...prevState, [name]: value }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("register", loginInfo);
-    // const { user, error } = await loginUser(loginInfo);
-    // if (user) {
-    history.push("/properties");
-    // } else {
-    // console.log("ERRRR");
-    // }
+    console.log("register", registerInfo);
+    const status = await register({ ...registerInfo }, registerInfo.type);
+    console.log("Status", status);
+
+    // Login User
+    if (status === 200) {
+      const user = await login(registerInfo);
+      if (user.status !== 400) {
+        console.log("user", user);
+        // Update User Context
+        updateUser(user); // TODO: Double Check Syncing
+        history.push("/properties");
+      }
+    } else {
+      console.log("ERRRR not logged in");
+    }
   };
 
   return (
@@ -31,8 +43,44 @@ export const SignUp = () => {
 
       <form onSubmit={handleSubmit}>
         <div className="mt-5">
+          <label>
+            Are you a Tenant or a Landowner?
+            <select
+              className="text-gray-900 block w-full p-2 border-none rounded-lg mb-6"
+              name="type"
+              required
+              onChange={handleChange}
+              defaultValue={registerInfo.type}
+            >
+              <option value="TENANT">Tenant</option>
+              <option value="LANDOWNER">Landowner</option>
+            </select>
+          </label>
+        </div>
+        <div className="mt-5">
+          <label>First Name</label>
+          <input
+            required
+            type="text"
+            name="first_name"
+            className="text-gray-900 block w-full p-2 border-none rounded-lg"
+            onChange={handleChange}
+          />
+        </div>
+        <div className="mt-5">
+          <label>Last Name</label>
+          <input
+            required
+            type="text"
+            name="last_name"
+            className="text-gray-900 block w-full p-2 border-none rounded-lg"
+            onChange={handleChange}
+          />
+        </div>
+        <div className="mt-5">
           <label>Email</label>
           <input
+            defaultValue="blub@gmail.com"
             required
             type="email"
             name="email"
