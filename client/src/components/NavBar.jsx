@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
+import UserContext from "../context/UserContext";
 
 // Nav Body
 export const NavBar = () => {
@@ -22,45 +23,65 @@ export const NavBar = () => {
 };
 
 // Nav Links
-const NavList = () => (
-  <div className="flex lg:flex-grow items-center">
-    <ul className="flex flex-col text-base lg:flex-row list-none ml-auto">
-      <li>
-        <Link
-          className="px-3 py-2 flex font-black items-center uppercase leading-snug  hover:opacity-75"
-          to="/register"
-        >
-          Sign Up
-        </Link>
-      </li>
-      <li>
-        <Link
-          className="px-3 py-2 flex items-center uppercase leading-snug  hover:opacity-75"
-          to="/login"
-        >
-          Login
-        </Link>
-      </li>
-      <li>
-        <Link
-          className="px-3 py-2 flex items-center uppercase leading-snug hover:opacity-75"
-          to="/about"
-        >
-          About
-        </Link>
-      </li>
-    </ul>
-  </div>
-);
+const NavList = () => {
+  const history = useHistory();
+  const { updateUser } = useContext(UserContext);
+
+  const handleLogout = () => {
+    updateUser(null); // set user to null
+    localStorage.clear(); // remove all storage
+    history.push("/login");
+  };
+
+  return (
+    <div className="flex lg:flex-grow items-center">
+      <ul className="flex flex-col text-base lg:flex-row list-none ml-auto">
+        <li>
+          <Link
+            className="px-3 py-2 flex font-black items-center uppercase leading-snug  hover:opacity-75"
+            to="/register"
+          >
+            Sign Up
+          </Link>
+        </li>
+        <li>
+          <Link
+            className="px-3 py-2 flex items-center uppercase leading-snug  hover:opacity-75"
+            to="/login"
+          >
+            Login
+          </Link>
+        </li>
+        <li>
+          <button
+            className="px-3 py-2 flex items-center uppercase leading-snug  hover:opacity-75 font-extrabold"
+            onClick={handleLogout}
+          >
+            Logout
+          </button>
+        </li>
+        <li>
+          <Link
+            className="px-3 py-2 flex items-center uppercase leading-snug hover:opacity-75"
+            to="/about"
+          >
+            About
+          </Link>
+        </li>
+      </ul>
+    </div>
+  );
+};
 
 // Nav Icon
 const Menu = () => (
+  // TODO: ADD ONCLICK HIDE
   <button
     className="cursor-pointer text-xl leading-none px-3 py-1 border border-solid border-transparent rounded bg-transparent block lg:hidden outline-none focus:outline-none"
     type="button"
   >
-    <span className="block relative w-6 h-px rounded-sm bg-blue-400"></span>
-    <span className="block relative w-6 h-px rounded-sm bg-blue-400 mt-1"></span>
-    <span className="block relative w-6 h-px rounded-sm bg-blue-400 mt-1"></span>
+    <span className="block relative w-6 h-px rounded-sm bg-green-300"></span>
+    <span className="block relative w-6 h-px rounded-sm bg-green-300 mt-1"></span>
+    <span className="block relative w-6 h-px rounded-sm bg-green-300 mt-1"></span>
   </button>
 );

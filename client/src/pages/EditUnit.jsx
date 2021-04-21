@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
+import { editProperty } from "../utils/services";
 
-export const EditUnit = () => {
+export const EditUnit = ({ propertyId }) => {
   const history = useHistory();
   const [unitInfo, setUnitInfo] = useState({});
 
@@ -18,7 +19,11 @@ export const EditUnit = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("unit info", unitInfo);
-    history.push("/unit");
+    if (unitInfo) {
+      const unit = await editProperty(unitInfo, unitInfo.id, propertyId);
+      console.log("edit unit", unit);
+      history.push("/unit");
+    }
     // history.push("/property/##");
   };
 

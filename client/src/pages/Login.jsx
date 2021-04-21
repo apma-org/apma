@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
+import UserContext from "../context/UserContext";
 import { useHistory } from "react-router-dom";
+import { login } from "../utils/services";
 
 export const Login = () => {
   const history = useHistory();
+  const { user, updateUser } = useContext(UserContext);
   const [loginInfo, setLoginInfo] = useState({});
 
   const handleChange = (e) => {
@@ -14,14 +17,26 @@ export const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("login", loginInfo);
-    // const { user, error } = await loginUser(loginInfo);
-    // if (user) {
-    history.push("/properties");
-    // } else {
-    // console.log("ERRRR");
-    // }
+    const userRes = await login(loginInfo);
+    if (userRes && userRes.status === 200) {
+      // Update User Context
+      console.log("user", userRes);
+      updateUser(userRes);
+      localStorage.setItem("currentUserId", userRes.data.id);
+      localStorage.setItem("currentUserType", `${loginInfo.type}`);
+      localStorage.setItem(
+        "currentUserName",
+        `${userRes.data.first_name} ${userRes.data.last_name}`
+      );
+      history.push("/properties");
+    } else {
+      console.log("ERRRR not logged in");
+    }
   };
+
+  useEffect(() => {
+    console.log("LOGIN(&^", user);
+  }, [user]);
 
   return (
     <div className="max-w-lg text-white mx-auto bg-green-100 px-5 py-10 rounded-xl shadow-xl">
@@ -30,6 +45,20 @@ export const Login = () => {
       </div>
 
       <form onSubmit={handleSubmit}>
+        <div className="mt-5">
+          <label>
+            Are you a Tenant or a Landowner?
+            <select
+              className="text-gray-900 block w-full p-2 border-none rounded-lg mb-6"
+              name="type"
+              required
+              onChange={handleChange}
+            >
+              <option value="TENANT">Tenant</option>
+              <option value="LANDOWNER">Landowner</option>
+            </select>
+          </label>
+        </div>
         <div className="mt-5">
           <label>Email</label>
           <input

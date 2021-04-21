@@ -1,27 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useHistory } from "react-router-dom";
 import property from "../images/property.svg";
 
 export const PropertyCard = ({
-  key,
+  id,
   address,
   maintenanceRequests,
   monthlyProfits,
 }) => {
   const history = useHistory();
-  const [propertyNumber, setPropertyNumber] = useState(-1);
 
   const handlePropertySelection = () => {
-    // history.push(`/properties/8`);
     // history.push(`/properties/${propertyNumber}`);
-    history.push(`/property`);
+    history.push(`/property/${id}`);
   };
-
-  useEffect(() => {
-    setPropertyNumber(key);
-  }, [key]);
-
-  console.log("AHHHH Property#", key);
 
   return (
     <button
@@ -30,9 +22,11 @@ export const PropertyCard = ({
     >
       <img className="w-16 h-16 object-cover" src={property} alt="property" />
       <div className="flex flex-col justify-center">
-        <p className="font-bold">{address}</p>
+        <p className="font-bold">
+          {address} #{id}
+        </p>
         <p className="text-sm">
-          Pending Requests: {maintenanceRequests.length}
+          Pending Requests: {maintenanceRequests && maintenanceRequests.length}
         </p>
         <p className="text-sm">Monthly Profit: ${monthlyProfits}</p>
       </div>

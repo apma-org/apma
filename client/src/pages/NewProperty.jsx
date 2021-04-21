@@ -1,8 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
+import { addProperty } from "../utils/services";
+import UserContext from "../context/UserContext";
 
 export const NewProperty = () => {
   const history = useHistory();
+  const { user } = useContext(UserContext);
+  const currentUserId = localStorage.getItem("currentUserId");
   const [propertyInfo, setPropertyInfo] = useState({});
 
   // TODO: Grab OwnerId
@@ -18,8 +22,12 @@ export const NewProperty = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("property info", propertyInfo);
+    const success = await addProperty({
+      ...propertyInfo,
+      landowner_id: currentUserId,
+    });
+    console.log("added property /NewProperty", success);
     history.push("/property");
-    // history.push("/property/##");
   };
 
   // TODO: Input fields
@@ -46,6 +54,16 @@ export const NewProperty = () => {
             required
             type="text"
             name="city"
+            className="text-gray-900 block w-full p-2 border-none rounded-lg"
+            onChange={handleChange}
+          />
+        </div>
+        <div className="mt-5">
+          <label>Zipcode</label>
+          <input
+            required
+            type="numbers"
+            name="zipcode"
             className="text-gray-900 block w-full p-2 border-none rounded-lg"
             onChange={handleChange}
           />

@@ -1,23 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useHistory } from "react-router";
 
 export const UnitCard = ({
-  key,
-  occupied,
-  tenantName,
-  rent,
-  maintenanceRequests,
-  unpaid,
+  id,
+  property,
+  rent_amount,
+  rent_deposit,
+  lease,
 }) => {
   const history = useHistory();
-  const [unitNumber, setUnitNumber] = useState(-1); // TODO: key's value currently passes as undefined
-
-  useEffect(() => {
-    setUnitNumber(key);
-  }, [key]);
 
   const handleUnitSelection = () => {
-    history.push("/unit");
+    history.push(`/unit/${id}`);
   };
 
   return (
@@ -26,12 +20,12 @@ export const UnitCard = ({
       onClick={handleUnitSelection}
     >
       <div className="flex flex-col justify-center">
-        <p className="font-bold">Unit: # {unitNumber}</p>
-        <p>Status: {occupied}</p>
-        <p>Tenant: {tenantName}</p>
-        <p>Rent: {rent}</p>
-        <p>Maintenance Requests: {maintenanceRequests}</p>
-        <p>Unpaid: {unpaid}</p>
+        <p className="font-bold">Unit: # {id}</p>
+        <p>Property: {property}</p>
+        <p>Rent Amount: {rent_amount}</p>
+        <p>Rent Deposit: {rent_deposit}</p>
+        <p>Unpaid: {rent_amount - rent_deposit}</p>
+        <p>Lease: {lease}</p>
       </div>
     </button>
   );

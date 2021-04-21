@@ -1,12 +1,15 @@
-import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
+import React, { useState, useContext } from "react";
+import { useHistory, useParams } from "react-router-dom";
+import { addUnit } from "../utils/services";
+import UserContext from "../context/UserContext";
 
 export const NewUnit = () => {
   const history = useHistory();
+  const { user } = useContext(UserContext);
+  const { upid } = useParams();
   const [unitInfo, setUnitInfo] = useState({});
 
-  // TODO: Grab OwnerId
-  // TODO: Redirect to /property/:propertyId
+  // TODO: Add Default State
 
   const handleChange = (e) => {
     setUnitInfo({
@@ -17,9 +20,12 @@ export const NewUnit = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("unit info", unitInfo);
-    history.push("/unit");
-    // history.push("/property/##");
+    const success = await addUnit({
+      ...unitInfo,
+      property_id: upid,
+    });
+    console.log(success.message);
+    history.push(`/property/${upid}`);
   };
 
   // TODO: Input fields
@@ -31,32 +37,31 @@ export const NewUnit = () => {
 
       <form onSubmit={handleSubmit}>
         <div className="mt-5">
-          <label>Status</label>
+          <label>Rent Amount</label>
           <input
             required
-            type="text"
-            name="address"
+            type="number"
+            name="rent_amount"
             className="text-gray-900 block w-full p-2 border-none rounded-lg"
             onChange={handleChange}
           />
         </div>
         {/* TODO: ADD SEARCH-BAR FOR SELECTING TENANT BY TENANT_ID */}
         <div className="mt-5">
-          <label>Tenant</label>
+          <label>Rent Deposit</label>
           <input
             required
-            type="text"
-            name="city"
+            type="number"
+            name="rent_deposit"
             className="text-gray-900 block w-full p-2 border-none rounded-lg"
             onChange={handleChange}
           />
         </div>
         <div className="mt-5">
-          <label>Rent</label>
+          <label>Lease</label>
           <input
-            required
-            type="text"
-            name="state"
+            type="file"
+            name="lease"
             className="text-gray-900 block w-full p-2 border-none rounded-lg"
             onChange={handleChange}
           />
