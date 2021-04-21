@@ -9,7 +9,6 @@ export const SignUp = () => {
   const [registerInfo, setRegisterInfo] = useState({
     type: "TENANT",
   });
-  // const [userType, setUserType] = useState("Select a User Type");
 
   const handleChange = ({ target: { name, value } }) => {
     setRegisterInfo((prevState) => ({ ...prevState, [name]: value }));
@@ -80,7 +79,6 @@ export const SignUp = () => {
         <div className="mt-5">
           <label>Email</label>
           <input
-            defaultValue="blub@gmail.com"
             required
             type="email"
             name="email"
