@@ -46,6 +46,17 @@ export const getLandowner = async (landownerId) => {
 };
 
 /* Landowner Function */
+export const getProperty = async (propertyId) => {
+  const property = await axios.get(`${baseUrl}property/${propertyId}`);
+
+  if (!property.id) {
+    console.log("Something went wrong");
+    return;
+  } else {
+    return property;
+  }
+};
+
 export const addProperty = async (propertyInfo) => {
   const property = await axios.post(`${baseUrl}property`, { ...propertyInfo });
 
@@ -89,5 +100,19 @@ export const addUnit = async (unitInfo) => {
     return;
   } else {
     return unit;
+  }
+};
+
+export const editUnit = async (unitInfo, unitId, propertyId) => {
+  const property = await axios.put(`${baseUrl}unit/${unitId}`, {
+    ...unitInfo,
+    property_id: propertyId,
+  });
+
+  if (!property.id) {
+    console.log("Something went wrong");
+    return;
+  } else {
+    return property;
   }
 };

@@ -3,9 +3,11 @@ import { useHistory } from "react-router";
 
 export const UnitCard = ({
   key,
+  property,
   occupied,
   tenantName,
   rent,
+  lease,
   maintenanceRequests,
   unpaid,
 }) => {
@@ -27,11 +29,13 @@ export const UnitCard = ({
     >
       <div className="flex flex-col justify-center">
         <p className="font-bold">Unit: # {unitNumber}</p>
-        <p>Status: {occupied}</p>
-        <p>Tenant: {tenantName}</p>
+        {/* <p>Status: {occupied}</p>
+        <p>Tenant: {tenantName}</p> */}
+        <p>Property: {property}</p>
         <p>Rent: {rent}</p>
-        <p>Maintenance Requests: {maintenanceRequests}</p>
-        <p>Unpaid: {unpaid}</p>
+        <p>Lease: {lease}</p>
+        {/* <p>Maintenance Requests: {maintenanceRequests}</p>
+        <p>Unpaid: {unpaid}</p> */}
       </div>
     </button>
   );

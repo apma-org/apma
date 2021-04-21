@@ -9,53 +9,6 @@ export const Properties = () => {
   const { user } = useContext(UserContext);
   const [totalProfits, setTotalProfits] = useState(8298.23);
   const [properties, setProperties] = useState([]);
-  // const [properties, setProperties] = useState([
-  //   {
-  //     address: "123 Bob Avenue",
-  //     maintenanceRequests: [
-  //       {
-  //         request: "Water heater is broken",
-  //       },
-  //       { request: "Sink is broken" },
-  //     ],
-  //     monthlyProfits: 4000,
-  //   },
-  //   {
-  //     address: "123 Mockingjay Street",
-  //     maintenanceRequests: [
-  //       {
-  //         request: "The Lights are flickering",
-  //       },
-  //     ],
-  //     monthlyProfits: 3000,
-  //   },
-  //   {
-  //     address: "Terrance Avenue",
-  //     maintenanceRequests: [
-  //       {
-  //         request: "The kitchen needs to be repainted",
-  //       },
-  //       { request: "The cabinet door is broken" },
-  //       { request: "The window needs washing" },
-  //     ],
-  //     monthlyProfits: 2500,
-  //   },
-  //   {
-  //     address: "123 Neverland",
-  //     maintenanceRequests: [
-  //       {
-  //         request: "The garden needs to be planted",
-  //       },
-  //       { request: "There is no hot water." },
-  //     ],
-  //     monthlyProfits: 5450,
-  //   },
-  //   {
-  //     address: "123 Narnia",
-  //     maintenanceRequests: [],
-  //     monthlyProfits: 7450,
-  //   },
-  // ]);
 
   const handleAddForm = () => {
     history.push("/addProperty");
@@ -90,6 +43,7 @@ export const Properties = () => {
           properties.map((e, idx) => (
             <PropertyCard
               key={idx}
+              id={e.id}
               address={e.address}
               maintenanceRequests={e.maintenanceRequests}
               monthlyProfits={e.monthlyProfits}

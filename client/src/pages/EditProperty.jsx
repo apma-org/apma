@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
+import { editProperty } from "../utils/services";
 
 export const EditProperty = () => {
   const history = useHistory();
@@ -18,8 +19,11 @@ export const EditProperty = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("property info", propertyInfo);
-    history.push("/property");
-    // history.push("/property/##");
+    if (propertyInfo) {
+      const unit = await editProperty(propertyInfo, propertyInfo.id);
+      console.log("edit properyt", unit);
+      history.push("/property");
+    }
   };
 
   // TODO: Input fields

@@ -10,6 +10,7 @@ export const NewUnit = () => {
 
   // TODO: Grab OwnerId
   // TODO: Redirect to /property/:propertyId
+  // TODO: Add Default State
 
   const handleChange = (e) => {
     setUnitInfo({
@@ -25,7 +26,7 @@ export const NewUnit = () => {
       ...unitInfo,
       landowner_id: user.id,
     });
-    console.log("added property /NewProperty", success);
+    console.log("added property /NewUnit", success);
     history.push("/unit");
   };
 
