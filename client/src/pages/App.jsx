@@ -31,12 +31,12 @@ const App = () => {
             <Route path="/register" component={SignUp} />
             <Route path="/properties" component={Properties} />
             <Route path="/property/:pid" children={<Property />} />
+            <Route path="/unit/:uid" children={<Unit />} />
             {/* <Route path="/properties/:propertyId" children={<Property />} /> */}
             <Route path="/addProperty" component={NewProperty} />
+            <Route path="/addUnit/:upid" children={<NewUnit />} />
             <Route path="/editProperty" component={EditProperty} />
-            <Route path="/addUnit" component={NewUnit} />
             <Route path="/editUnit" component={EditUnit} />
-            <Route path="/unit" component={Unit} />
             {/* <Route path="/unit/:unitId" component={Unit} /> */}
           </Switch>
         </UserContext.Provider>
