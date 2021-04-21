@@ -1,19 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useHistory, useParams } from "react-router-dom";
+import UserContext from "../context/UserContext";
 // import { Expenses } from "../components/Expenses";
 import { UnitCard } from "../components/UnitCard";
 import { getProperty } from "../utils/services";
 
 export const Property = ({
-  key,
   id,
   address,
   maintenanceRequests,
   monthlyProfits,
 }) => {
   const history = useHistory();
-  const { propertyId } = useParams();
-  const [totalProfits, setTotalProfits] = useState(8298.23);
+  const { pid } = useParams();
+  const { user } = useContext(UserContext);
   const [property, setProperty] = useState({});
 
   // TODO: Abstract to a component, and pass along property details
@@ -26,21 +26,22 @@ export const Property = ({
     history.push("/addUnit");
   };
 
+  console.log("1PROPUSER23283U9", pid);
+
   const getCurrentProperty = async () => {
-    if (id) {
-      const propertyData = await getProperty(id);
-      setProperty(propertyData);
-    }
+    const propertyData = await getProperty(pid);
+    console.log(propertyData);
+    setProperty(propertyData.data);
   };
 
   useEffect(() => {
-    getCurrentProperty();
-  }, []);
+    pid && getCurrentProperty();
+  }, [pid]);
 
   return (
     <div className="max-w-full text-black m-10 px-5 py-5 rounded-xl shadow-xl">
       <h3 className="text-2xl block justify-center text-center m-4">
-        {property.city}, {property.state}, #{property.id}
+        {property.city}, {property.state} #{property.id}
       </h3>
 
       <div className="flex flex-row space-x-20 justify-center items-center">
@@ -70,12 +71,8 @@ export const Property = ({
             <UnitCard
               key={e.id}
               property={e.property_id}
-              // occupied={e.occupied}
-              // tenantName={e.tenantName}
               rent={e.rent_amount}
               lease={e.lease}
-              // maintenanceRequests={e.maintenanceRequests}
-              // unpaid={e.unpaid}
             />
           ))}
       </div>

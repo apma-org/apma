@@ -16,14 +16,14 @@ export const Properties = () => {
   };
 
   console.log("PROPUSER23283U9", user, currentUserId);
-  const getUser = async () => {
+  const getProperties = async () => {
     const u = await getLandowner(currentUserId);
     u && setProperties(u.data.properties);
-    console.log("Propertis==========", u);
+    console.log("Properties==========", u);
   };
 
   useEffect(() => {
-    currentUserId && getUser();
+    currentUserId && getProperties();
   }, []);
 
   return (

@@ -4,7 +4,6 @@ import property from "../images/property.svg";
 
 export const PropertyCard = ({
   id,
-  key,
   address,
   maintenanceRequests,
   monthlyProfits,
@@ -13,7 +12,7 @@ export const PropertyCard = ({
 
   const handlePropertySelection = () => {
     // history.push(`/properties/${propertyNumber}`);
-    history.push(`/property`);
+    history.push(`/property/${id}`);
   };
 
   return (

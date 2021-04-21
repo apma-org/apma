@@ -30,7 +30,7 @@ const App = () => {
             <Route path="/login" component={Login} />
             <Route path="/register" component={SignUp} />
             <Route path="/properties" component={Properties} />
-            <Route path="/property" component={Property} />
+            <Route path="/property/:pid" children={<Property />} />
             {/* <Route path="/properties/:propertyId" children={<Property />} /> */}
             <Route path="/addProperty" component={NewProperty} />
             <Route path="/editProperty" component={EditProperty} />
