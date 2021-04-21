@@ -7,21 +7,23 @@ import { getLandowner } from "../utils/services";
 export const Properties = () => {
   const history = useHistory();
   const { user } = useContext(UserContext);
-  const [totalProfits, setTotalProfits] = useState(8298.23);
+  const currentUserId = localStorage.getItem("currentUserId");
+
   const [properties, setProperties] = useState([]);
 
   const handleAddForm = () => {
     history.push("/addProperty");
   };
 
+  console.log("PROPUSER23283U9", user, currentUserId);
   const getUser = async () => {
-    const u = await getLandowner(user.id);
-    setProperties(u.properties);
-    console.log("Properties file user", u);
+    const u = await getLandowner(currentUserId);
+    u && setProperties(u.data.properties);
+    console.log("Propertis==========", u);
   };
 
   useEffect(() => {
-    getUser();
+    currentUserId && getUser();
   }, []);
 
   return (
@@ -29,7 +31,7 @@ export const Properties = () => {
       <h3 className="text-2xl block justify-center text-center">Properties</h3>
       <div className="flex flex-row space-x-20 justify-center items-center">
         <h3 className="text-xl block justify-center text-center m-4">
-          <b>Total Profits:</b> ${totalProfits}/month
+          {/* <b>Total Profits:</b> ${totalProfits}/month */}
         </h3>
         <button
           onClick={handleAddForm}

@@ -37,11 +37,11 @@ export const login = async (loginInfo) => {
 export const getLandowner = async (landownerId) => {
   const user = await axios.get(`${baseUrl}landowner/${landownerId}`);
 
-  if (!user.id) {
+  if (user.status === 200) {
+    return user;
+  } else {
     console.log("Something went wrong");
     return;
-  } else {
-    return user;
   }
 };
 
@@ -60,11 +60,11 @@ export const getProperty = async (propertyId) => {
 export const addProperty = async (propertyInfo) => {
   const property = await axios.post(`${baseUrl}property`, { ...propertyInfo });
 
-  if (!property.id) {
-    console.log("Something went wrong");
-    return;
-  } else {
+  if (property.status === 200) {
     return property;
+  } else {
+    console.log(property.message);
+    return;
   }
 };
 

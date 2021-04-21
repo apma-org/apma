@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import { addProperty } from "../utils/services";
 import UserContext from "../context/UserContext";
@@ -6,6 +6,7 @@ import UserContext from "../context/UserContext";
 export const NewProperty = () => {
   const history = useHistory();
   const { user } = useContext(UserContext);
+  const currentUserId = localStorage.getItem("currentUserId");
   const [propertyInfo, setPropertyInfo] = useState({});
 
   // TODO: Grab OwnerId
@@ -23,7 +24,7 @@ export const NewProperty = () => {
     console.log("property info", propertyInfo);
     const success = await addProperty({
       ...propertyInfo,
-      landowner_id: user.id,
+      landowner_id: currentUserId,
     });
     console.log("added property /NewProperty", success);
     history.push("/property");
