@@ -35,7 +35,7 @@ const NavList = () => {
 
   return (
     <div className="flex lg:flex-grow items-center">
-      <ul className="flex flex-col text-base lg:flex-row list-none ml-auto">
+      <ul className="flex flex-col text-base lg:flex-row list-none text-center">
         <li>
           <Link
             className="px-3 py-2 flex font-black items-center uppercase leading-snug  hover:opacity-75"

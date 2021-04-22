@@ -35,7 +35,7 @@ const App = () => {
             <Route path="/addProperty" component={NewProperty} />
             <Route path="/addUnit/:upid" children={<NewUnit />} />
             <Route path="/editProperty" component={EditProperty} />
-            <Route path="/editUnit" component={EditUnit} />S{" "}
+            <Route path="/editUnit/:upid" children={<EditUnit />} />
           </Switch>
         </UserContext.Provider>
       </BrowserRouter>

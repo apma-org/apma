@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
-// import { Expenses } from "../components/Expenses";
 import { UnitCard } from "../components/UnitCard";
 import { getProperty } from "../utils/services";
 
@@ -14,6 +13,7 @@ export const Property = ({
   const { pid } = useParams();
   const [property, setProperty] = useState({});
 
+  // TODO: FIX passing data to forms
   // TODO: Abstract to a component, and pass along property details
   const handleEditProperty = () => {
     history.push("/editProperty");
@@ -22,8 +22,6 @@ export const Property = ({
   const handleAddUnit = () => {
     history.push(`/addUnit/${pid}`);
   };
-
-  console.log("1PROPUSER23283U9", pid);
 
   const getCurrentProperty = async () => {
     const propertyData = await getProperty(pid);
@@ -67,6 +65,7 @@ export const Property = ({
           property.units.map((e) => (
             <UnitCard
               key={e.id}
+              id={e.id}
               property={e.property_id}
               rent={e.rent_amount}
               lease={e.lease}

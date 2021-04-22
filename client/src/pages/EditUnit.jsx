@@ -2,10 +2,14 @@ import React, { useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { editProperty } from "../utils/services";
 
-export const EditUnit = ({ propertyId }) => {
+export const EditUnit = ({ rent_amount, rent_deposit, lease }) => {
   const history = useHistory();
-  const { uid } = useParams();
-  const [unitInfo, setUnitInfo] = useState({});
+  const { upid } = useParams();
+  const [unitInfo, setUnitInfo] = useState({
+    rent_amount,
+    rent_deposit,
+    lease,
+  });
 
   // TODO: Grab OwnerId
   // TODO: Redirect to /property/:propertyId
@@ -17,8 +21,10 @@ export const EditUnit = ({ propertyId }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (unitInfo) {
-      const unit = await editProperty(unitInfo, unitInfo.id, propertyId);
-      history.push(`/unit/${uid}`);
+      // const originalUnit = await getUnit(unitId);
+      const unit = await editProperty(unitInfo, unitInfo.id, upid);
+      setUnitInfo(unit);
+      history.push(`/unit/${upid}`);
     }
   };
 
@@ -31,35 +37,32 @@ export const EditUnit = ({ propertyId }) => {
 
       <form onSubmit={handleSubmit}>
         <div className="mt-5">
-          <label>Status</label>
+          <label>Rent Amount</label>
           <input
             required
-            type="text"
-            name="address"
-            defaultValue={unitInfo.address || null}
+            type="number"
+            name="rent_amount"
+            value={unitInfo.rent_amount || "iun"}
             className="text-gray-900 block w-full p-2 border-none rounded-lg"
             onChange={handleChange}
           />
         </div>
         {/* TODO: ADD SEARCH-BAR FOR SELECTING TENANT BY TENANT_ID */}
         <div className="mt-5">
-          <label>Tenant</label>
+          <label>Rent Deposit</label>
           <input
             required
-            type="text"
-            name="city"
-            defaultValue={unitInfo.tenant || null}
+            type="number"
+            name="rent_deposit"
             className="text-gray-900 block w-full p-2 border-none rounded-lg"
             onChange={handleChange}
           />
         </div>
         <div className="mt-5">
-          <label>Rent</label>
+          <label>Lease</label>
           <input
-            required
             type="text"
-            name="state"
-            defaultValue={unitInfo.rent || null}
+            name="lease"
             className="text-gray-900 block w-full p-2 border-none rounded-lg"
             onChange={handleChange}
           />

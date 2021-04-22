@@ -1,11 +1,9 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { addUnit } from "../utils/services";
-import UserContext from "../context/UserContext";
 
 export const NewUnit = () => {
   const history = useHistory();
-  const { user } = useContext(UserContext);
   const { upid } = useParams();
   const [unitInfo, setUnitInfo] = useState({});
 
@@ -21,7 +19,7 @@ export const NewUnit = () => {
       ...unitInfo,
       property_id: upid,
     });
-    console.log(success.message);
+    console.log(success);
     history.push(`/property/${upid}`);
   };
 

@@ -14,7 +14,8 @@ export const EditProperty = () => {
     e.preventDefault();
     console.log("property info", propertyInfo);
     if (propertyInfo) {
-      const unit = await editProperty(propertyInfo, propertyInfo.id);
+      const property = await editProperty(propertyInfo, propertyInfo.id);
+      setPropertyInfo(property);
       history.push("/property");
     }
   };
@@ -32,7 +33,7 @@ export const EditProperty = () => {
             required
             type="text"
             name="address"
-            defaultValue={propertyInfo.address || null}
+            defaultValue={propertyInfo.address}
             className="text-gray-900 block w-full p-2 border-none rounded-lg"
             onChange={handleChange}
           />
@@ -43,7 +44,7 @@ export const EditProperty = () => {
             required
             type="text"
             name="city"
-            defaultValue={propertyInfo.city || null}
+            defaultValue={propertyInfo.city}
             className="text-gray-900 block w-full p-2 border-none rounded-lg"
             onChange={handleChange}
           />
@@ -54,7 +55,7 @@ export const EditProperty = () => {
             required
             type="text"
             name="state"
-            defaultValue={propertyInfo.state || null}
+            defaultValue={propertyInfo.state}
             className="text-gray-900 block w-full p-2 border-none rounded-lg"
             onChange={handleChange}
           />
@@ -65,7 +66,7 @@ export const EditProperty = () => {
             required
             type="number"
             name="mortgage"
-            defaultValue={propertyInfo.mortgage || null}
+            defaultValue={propertyInfo.mortgage}
             className="text-gray-900 block w-full p-2 border-none rounded-lg"
             onChange={handleChange}
           />
@@ -76,7 +77,7 @@ export const EditProperty = () => {
             required
             type="number"
             name="tax"
-            defaultValue={propertyInfo.tax || null}
+            defaultValue={propertyInfo.tax}
             className="text-gray-900 block w-full p-2 border-none rounded-lg"
             onChange={handleChange}
           />
@@ -87,7 +88,7 @@ export const EditProperty = () => {
             required
             type="number"
             name="insurance"
-            defaultValue={propertyInfo.insurance || null}
+            defaultValue={propertyInfo.insurance}
             className="text-gray-900 block w-full p-2 border-none rounded-lg"
             onChange={handleChange}
           />
@@ -98,7 +99,7 @@ export const EditProperty = () => {
             required
             type="number"
             name="appreciation"
-            defaultValue={propertyInfo.appreciation || null}
+            defaultValue={propertyInfo.appreciation}
             className="text-gray-900 block w-full p-2 border-none rounded-lg"
             onChange={handleChange}
           />
