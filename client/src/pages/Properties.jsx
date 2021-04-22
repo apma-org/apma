@@ -19,7 +19,6 @@ export const Properties = () => {
   const getProperties = async () => {
     const u = await getLandowner(currentUserId);
     u && setProperties(u.data.properties);
-    console.log("Properties==========", u);
   };
 
   useEffect(() => {

@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
-import UserContext from "../context/UserContext";
 // import { Expenses } from "../components/Expenses";
 import { UnitCard } from "../components/UnitCard";
 import { getProperty } from "../utils/services";
@@ -13,11 +12,9 @@ export const Property = ({
 }) => {
   const history = useHistory();
   const { pid } = useParams();
-  const { user } = useContext(UserContext);
   const [property, setProperty] = useState({});
 
   // TODO: Abstract to a component, and pass along property details
-  // TODO: Look into useParams as alt.
   const handleEditProperty = () => {
     history.push("/editProperty");
   };

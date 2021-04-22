@@ -6,14 +6,8 @@ export const EditProperty = () => {
   const history = useHistory();
   const [propertyInfo, setPropertyInfo] = useState({});
 
-  // TODO: Grab OwnerId
-  // TODO: Redirect to /property/:propertyId
-
-  const handleChange = (e) => {
-    setPropertyInfo({
-      ...propertyInfo,
-      [e.target.name]: e.target.value,
-    });
+  const handleChange = ({ target: { name, value } }) => {
+    setPropertyInfo((prevState) => ({ ...prevState, [name]: value }));
   };
 
   const handleSubmit = async (e) => {
@@ -21,12 +15,10 @@ export const EditProperty = () => {
     console.log("property info", propertyInfo);
     if (propertyInfo) {
       const unit = await editProperty(propertyInfo, propertyInfo.id);
-      console.log("edit properyt", unit);
       history.push("/property");
     }
   };
 
-  // TODO: Input fields
   return (
     <div className="max-w-lg text-white mb-10 mx-auto bg-green-100 px-5 py-10 rounded-xl shadow-xl">
       <div className="text-center mb-8">

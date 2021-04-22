@@ -11,11 +11,8 @@ export const NewUnit = () => {
 
   // TODO: Add Default State
 
-  const handleChange = (e) => {
-    setUnitInfo({
-      ...unitInfo,
-      [e.target.name]: e.target.value,
-    });
+  const handleChange = ({ target: { name, value } }) => {
+    setUnitInfo((prevState) => ({ ...prevState, [name]: value }));
   };
 
   const handleSubmit = async (e) => {
@@ -60,7 +57,7 @@ export const NewUnit = () => {
         <div className="mt-5">
           <label>Lease</label>
           <input
-            type="file"
+            type="text"
             name="lease"
             className="text-gray-900 block w-full p-2 border-none rounded-lg"
             onChange={handleChange}

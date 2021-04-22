@@ -1,30 +1,25 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { editProperty } from "../utils/services";
 
 export const EditUnit = ({ propertyId }) => {
   const history = useHistory();
+  const { uid } = useParams();
   const [unitInfo, setUnitInfo] = useState({});
 
   // TODO: Grab OwnerId
   // TODO: Redirect to /property/:propertyId
 
-  const handleChange = (e) => {
-    setUnitInfo({
-      ...unitInfo,
-      [e.target.name]: e.target.value,
-    });
+  const handleChange = ({ target: { name, value } }) => {
+    setUnitInfo((prevState) => ({ ...prevState, [name]: value }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("unit info", unitInfo);
     if (unitInfo) {
       const unit = await editProperty(unitInfo, unitInfo.id, propertyId);
-      console.log("edit unit", unit);
-      history.push("/unit");
+      history.push(`/unit/${uid}`);
     }
-    // history.push("/property/##");
   };
 
   // TODO: Input fields
