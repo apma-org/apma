@@ -13,6 +13,7 @@ export const NavBar = () => {
 const NavLogic = () => {
   const history = useHistory();
   const [navbarOpen, setNavbarOpen] = useState(false);
+  const currentUserName = localStorage.getItem("currentUserName");
 
   const handleLogout = () => {
     localStorage.clear(); // remove all storage
@@ -26,7 +27,7 @@ const NavLogic = () => {
           className="px-3 py-2 items-center uppercase leading-snug  hover:opacity-75"
           to="/"
         >
-          APMA
+          {currentUserName ? `Hello, ${currentUserName}` : `APMA`}
         </Link>
         <button
           className="cursor-pointer text-xl leading-none px-3 py-1 border border-solid border-transparent rounded bg-transparent block lg:hidden outline-none focus:outline-none"
