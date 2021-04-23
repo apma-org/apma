@@ -142,6 +142,10 @@ export const addProperty = async (propertyInfo) => {
  * @returns Modified Property Object
  */
 export const editProperty = async (propertyInfo, propertyId) => {
+  delete propertyInfo.units;
+  delete propertyInfo.id;
+  delete propertyInfo.maintenance_costs;
+
   const property = await axios.put(`${baseUrl}property/${propertyId}`, {
     ...propertyInfo,
   });
