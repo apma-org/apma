@@ -5,7 +5,11 @@ import { addUnit } from "../utils/services";
 export const NewUnit = () => {
   const history = useHistory();
   const { upid } = useParams();
-  const [unitInfo, setUnitInfo] = useState({});
+  const [unitInfo, setUnitInfo] = useState({
+    rent_amount: 0,
+    rent_deposit: 0,
+    lease: "",
+  });
 
   // TODO: Add Default State
 
