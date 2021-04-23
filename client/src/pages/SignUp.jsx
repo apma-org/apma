@@ -1,6 +1,6 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { register, login } from "../utils/services";
+import { register, login, getTenant } from "../utils/services";
 
 export const SignUp = () => {
   const history = useHistory();
@@ -28,7 +28,15 @@ export const SignUp = () => {
           "currentUserName",
           `${userRes.data.first_name} ${userRes.data.last_name}`
         );
-        history.push("/properties");
+        if (registerInfo.type === "LANDOWNER") {
+          history.push("/properties");
+        } else {
+          const tenant = await getTenant(userRes.data.id);
+          /* Navigate to Tenant's Unit Page */
+          tenant.unit_id
+            ? history.push(`/unit/${tenant.unit_id}`)
+            : history.push(`/`);
+        }
       } else {
         console.log("ERRRR not logged in");
       }
