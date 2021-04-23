@@ -1,32 +1,23 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
-import UserContext from "../context/UserContext";
-// import { Expenses } from "../components/Expenses";
+import { Modal } from "../components/Modal";
+import { PropertyForm } from "../components/PropertyForm";
 import { UnitCard } from "../components/UnitCard";
 import { getProperty } from "../utils/services";
 
-export const Property = ({
-  id,
-  address,
-  maintenanceRequests,
-  monthlyProfits,
-}) => {
+export const Property = () => {
   const history = useHistory();
   const { pid } = useParams();
-  const { user } = useContext(UserContext);
   const [property, setProperty] = useState({});
+  const [showEditPropertyModal, setShowEditPropertyModal] = useState(false);
 
-  // TODO: Abstract to a component, and pass along property details
-  // TODO: Look into useParams as alt.
-  const handleEditProperty = () => {
-    history.push("/editProperty");
+  const handleEditClick = () => {
+    setShowEditPropertyModal((prev) => !prev);
   };
 
   const handleAddUnit = () => {
     history.push(`/addUnit/${pid}`);
   };
-
-  console.log("1PROPUSER23283U9", pid);
 
   const getCurrentProperty = async () => {
     const propertyData = await getProperty(pid);
@@ -50,7 +41,7 @@ export const Property = ({
         </h4>
         <button
           className="bg-green-100 font-bold text-sm uppercase rounded-xl p-2.5 hover:bg-green-200 text-white m-8"
-          onClick={handleEditProperty}
+          onClick={handleEditClick}
         >
           Edit Property
         </button>
@@ -62,20 +53,25 @@ export const Property = ({
         </button>
       </div>
 
-      {/* <Expenses /> */}
-
       <h3 className="text-2xl block justify-center text-center m-4">UNITS</h3>
       <div className="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 grid-cols-1 gap-4 px-4">
         {property.units &&
           property.units.map((e) => (
             <UnitCard
               key={e.id}
+              id={e.id}
               property={e.property_id}
-              rent={e.rent_amount}
+              rent_amount={e.rent_amount}
+              rent_deposit={e.rent_deposit}
               lease={e.lease}
             />
           ))}
       </div>
+      {showEditPropertyModal && (
+        <Modal close={handleEditClick}>
+          <PropertyForm property={property} />
+        </Modal>
+      )}
     </div>
   );
 };

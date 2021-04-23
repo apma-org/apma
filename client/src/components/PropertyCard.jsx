@@ -11,7 +11,6 @@ export const PropertyCard = ({
   const history = useHistory();
 
   const handlePropertySelection = () => {
-    // history.push(`/properties/${propertyNumber}`);
     history.push(`/property/${id}`);
   };
 

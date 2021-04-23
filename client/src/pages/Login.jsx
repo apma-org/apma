@@ -1,42 +1,38 @@
-import React, { useState, useContext, useEffect } from "react";
-import UserContext from "../context/UserContext";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { login } from "../utils/services";
+import { getTenant, login } from "../utils/services";
 
 export const Login = () => {
   const history = useHistory();
-  const { user, updateUser } = useContext(UserContext);
   const [loginInfo, setLoginInfo] = useState({});
 
-  const handleChange = (e) => {
-    setLoginInfo({
-      ...loginInfo,
-      [e.target.name]: e.target.value,
-    });
+  const handleChange = ({ target: { name, value } }) => {
+    setLoginInfo((prevState) => ({ ...prevState, [name]: value }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const userRes = await login(loginInfo);
     if (userRes && userRes.status === 200) {
-      // Update User Context
-      console.log("user", userRes);
-      updateUser(userRes);
       localStorage.setItem("currentUserId", userRes.data.id);
       localStorage.setItem("currentUserType", `${loginInfo.type}`);
       localStorage.setItem(
         "currentUserName",
         `${userRes.data.first_name} ${userRes.data.last_name}`
       );
-      history.push("/properties");
+      if (loginInfo.type === "LANDOWNER") {
+        history.push("/properties");
+      } else {
+        const tenant = await getTenant(userRes.data.id);
+        /* Navigate to Tenant's Unit Page */
+        tenant.unit_id
+          ? history.push(`/unit/${tenant.unit_id}`)
+          : history.push(`/`);
+      }
     } else {
       console.log("ERRRR not logged in");
     }
   };
-
-  useEffect(() => {
-    console.log("LOGIN(&^", user);
-  }, [user]);
 
   return (
     <div className="max-w-lg text-white mx-auto bg-green-100 px-5 py-10 rounded-xl shadow-xl">

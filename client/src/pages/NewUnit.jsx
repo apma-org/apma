@@ -1,21 +1,20 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { addUnit } from "../utils/services";
-import UserContext from "../context/UserContext";
 
 export const NewUnit = () => {
   const history = useHistory();
-  const { user } = useContext(UserContext);
   const { upid } = useParams();
-  const [unitInfo, setUnitInfo] = useState({});
+  const [unitInfo, setUnitInfo] = useState({
+    rent_amount: 0,
+    rent_deposit: 0,
+    lease: "",
+  });
 
   // TODO: Add Default State
 
-  const handleChange = (e) => {
-    setUnitInfo({
-      ...unitInfo,
-      [e.target.name]: e.target.value,
-    });
+  const handleChange = ({ target: { name, value } }) => {
+    setUnitInfo((prevState) => ({ ...prevState, [name]: value }));
   };
 
   const handleSubmit = async (e) => {
@@ -24,7 +23,7 @@ export const NewUnit = () => {
       ...unitInfo,
       property_id: upid,
     });
-    console.log(success.message);
+    console.log(success);
     history.push(`/property/${upid}`);
   };
 
@@ -60,7 +59,7 @@ export const NewUnit = () => {
         <div className="mt-5">
           <label>Lease</label>
           <input
-            type="file"
+            type="text"
             name="lease"
             className="text-gray-900 block w-full p-2 border-none rounded-lg"
             onChange={handleChange}

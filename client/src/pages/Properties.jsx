@@ -1,12 +1,10 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { PropertyCard } from "../components/PropertyCard";
 import { useHistory } from "react-router-dom";
-import UserContext from "../context/UserContext";
 import { getLandowner } from "../utils/services";
 
 export const Properties = () => {
   const history = useHistory();
-  const { user } = useContext(UserContext);
   const currentUserId = localStorage.getItem("currentUserId");
 
   const [properties, setProperties] = useState([]);
@@ -15,11 +13,9 @@ export const Properties = () => {
     history.push("/addProperty");
   };
 
-  console.log("PROPUSER23283U9", user, currentUserId);
   const getProperties = async () => {
     const u = await getLandowner(currentUserId);
     u && setProperties(u.data.properties);
-    console.log("Properties==========", u);
   };
 
   useEffect(() => {

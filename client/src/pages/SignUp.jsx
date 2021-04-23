@@ -1,11 +1,9 @@
-import React, { useState, useContext } from "react";
-import UserContext from "../context/UserContext";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { register, login } from "../utils/services";
+import { register, login, getTenant } from "../utils/services";
 
 export const SignUp = () => {
   const history = useHistory();
-  const { updateUser } = useContext(UserContext);
   const [registerInfo, setRegisterInfo] = useState({
     type: "TENANT",
   });
@@ -22,12 +20,25 @@ export const SignUp = () => {
 
     // Login User
     if (status === 200) {
-      const user = await login(registerInfo);
-      if (user.status !== 400) {
-        console.log("user", user);
-        // Update User Context
-        updateUser(user); // TODO: Double Check Syncing
-        history.push("/properties");
+      const userRes = await login(registerInfo);
+      if (userRes && userRes.status === 200) {
+        localStorage.setItem("currentUserId", userRes.data.id);
+        localStorage.setItem("currentUserType", `${registerInfo.type}`);
+        localStorage.setItem(
+          "currentUserName",
+          `${userRes.data.first_name} ${userRes.data.last_name}`
+        );
+        if (registerInfo.type === "LANDOWNER") {
+          history.push("/properties");
+        } else {
+          const tenant = await getTenant(userRes.data.id);
+          /* Navigate to Tenant's Unit Page */
+          tenant.unit_id
+            ? history.push(`/unit/${tenant.unit_id}`)
+            : history.push(`/`);
+        }
+      } else {
+        console.log("ERRRR not logged in");
       }
     } else {
       console.log("ERRRR not logged in");

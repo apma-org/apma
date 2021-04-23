@@ -142,6 +142,10 @@ export const addProperty = async (propertyInfo) => {
  * @returns Modified Property Object
  */
 export const editProperty = async (propertyInfo, propertyId) => {
+  delete propertyInfo.units;
+  delete propertyInfo.id;
+  delete propertyInfo.maintenance_costs;
+
   const property = await axios.put(`${baseUrl}property/${propertyId}`, {
     ...propertyInfo,
   });
@@ -187,7 +191,7 @@ export const addUnit = async (unitInfo) => {
   const unit = await axios.post(`${baseUrl}unit`, { ...unitInfo });
 
   if (unit.status === 200) {
-    return unit.message;
+    return unit;
   } else {
     console.log("Something went wrong with adding this unit");
     return;
@@ -202,6 +206,7 @@ export const addUnit = async (unitInfo) => {
  * @returns Modified Unit Object
  */
 export const editUnit = async (unitInfo, unitId, propertyId) => {
+  console.log("services", { ...unitInfo, property_id: propertyId });
   const unit = await axios.put(`${baseUrl}unit/${unitId}`, {
     ...unitInfo,
     property_id: propertyId,

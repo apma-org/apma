@@ -8,11 +8,9 @@ import { SignUp } from "./SignUp";
 import { Properties } from "./Properties";
 import { Property } from "./Property";
 import { NewProperty } from "./NewProperty";
-import { EditProperty } from "./EditProperty";
 import { Unit } from "./Unit";
 import { NewUnit } from "./NewUnit";
-import { EditUnit } from "./EditUnit";
-import UserContext from "../context/UserContext";
+import { NewMaintenance } from "./NewMaintenance";
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -21,25 +19,20 @@ const App = () => {
   return (
     <div className="App">
       <BrowserRouter>
-        <UserContext.Provider value={{ user, updateUser }}>
-          <NavBar />
-          <Header title={`APMA`} />
-          <Switch>
-            <Route path="/about" component={About} />
-            <Route path="/header" component={Header} />
-            <Route path="/login" component={Login} />
-            <Route path="/register" component={SignUp} />
-            <Route path="/properties" component={Properties} />
-            <Route path="/property/:pid" children={<Property />} />
-            <Route path="/unit/:uid" children={<Unit />} />
-            {/* <Route path="/properties/:propertyId" children={<Property />} /> */}
-            <Route path="/addProperty" component={NewProperty} />
-            <Route path="/addUnit/:upid" children={<NewUnit />} />
-            <Route path="/editProperty" component={EditProperty} />
-            <Route path="/editUnit" component={EditUnit} />
-            {/* <Route path="/unit/:unitId" component={Unit} /> */}
-          </Switch>
-        </UserContext.Provider>
+        <NavBar />
+        <Header title={`APMA`} />
+        <Switch>
+          <Route path="/about" component={About} />
+          <Route path="/header" component={Header} />
+          <Route path="/login" component={Login} />
+          <Route path="/register" component={SignUp} />
+          <Route path="/properties" component={Properties} />
+          <Route path="/property/:pid" children={<Property />} />
+          <Route path="/unit/:uid" children={<Unit />} />
+          <Route path="/addProperty" component={NewProperty} />
+          <Route path="/addUnit/:upid" children={<NewUnit />} />
+          <Route path="/addMaintenance/:uid" children={<NewMaintenance />} />
+        </Switch>
       </BrowserRouter>
     </div>
   );
