@@ -26,9 +26,11 @@ export const Properties = () => {
     <div className="max-w-full text-black m-10 px-5 py-5 rounded-xl shadow-xl">
       <h3 className="text-2xl block justify-center text-center">Properties</h3>
       <div className="flex flex-row space-x-20 justify-center items-center">
+        {/*
         <h3 className="text-xl block justify-center text-center m-4">
-          {/* <b>Total Profits:</b> ${totalProfits}/month */}
+          {<b>Total Profits:</b> ${totalProfits}/month }
         </h3>
+        */}
         <button
           onClick={handleAddForm}
           className="bg-green-100 font-bold text-sm uppercase rounded-xl p-2.5 hover:bg-green-200 text-white m-8"

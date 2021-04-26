@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { editProperty } from "../utils/services";
 
-export const PropertyForm = ({ property }) => {
+export const PropertyForm = ({ property , close}) => {
   const [propertyInfo, setPropertyInfo] = useState({
     ...property,
   });
@@ -17,6 +17,7 @@ export const PropertyForm = ({ property }) => {
     if (propertyInfo) {
       const property = await editProperty(propertyInfo, propertyInfo.id);
       setPropertyInfo(property);
+      close(property);
     }
   };
 

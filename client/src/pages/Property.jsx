@@ -11,8 +11,12 @@ export const Property = () => {
   const [property, setProperty] = useState({});
   const [showEditPropertyModal, setShowEditPropertyModal] = useState(false);
 
-  const handleEditClick = () => {
+  const handleEditClick = (propertyData) => {
     setShowEditPropertyModal((prev) => !prev);
+    console.log(propertyData)
+    if(propertyData && propertyData.address){
+      getCurrentProperty()
+    }
   };
 
   const handleAddUnit = () => {
@@ -69,7 +73,7 @@ export const Property = () => {
       </div>
       {showEditPropertyModal && (
         <Modal close={handleEditClick}>
-          <PropertyForm property={property} />
+          <PropertyForm property={{...property, id:pid}} close={handleEditClick}/>
         </Modal>
       )}
     </div>

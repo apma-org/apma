@@ -14,6 +14,7 @@ const NavLogic = () => {
   const history = useHistory();
   const [navbarOpen, setNavbarOpen] = useState(false);
   const currentUserName = localStorage.getItem("currentUserName");
+  const currentUserType = localStorage.getItem("currentUserType")
 
   const handleLogout = () => {
     localStorage.clear(); // remove all storage
@@ -43,6 +44,19 @@ const NavLogic = () => {
         }
       >
         <ul className="flex flex-col lg:flex-row list-none lg:ml-auto">
+          {currentUserName && currentUserType && currentUserType.toLowerCase() == "landowner" &&
+            <li>
+              <Link
+                className="px-3 py-2 flex items-center uppercase leading-snug  hover:opacity-75"
+                to="/properties"
+              >
+                <i className="fab fa-twitter text-lg leading-lg text-white opacity-75"></i>
+                <span className="ml-3.5">My Properties</span>
+              </Link>
+            </li>
+          }
+          {!currentUserName && 
+          <>
           <li>
             <Link
               className="px-3 py-2 flex items-center uppercase leading-snug  hover:opacity-75"
@@ -61,7 +75,8 @@ const NavLogic = () => {
               <span className="ml-3.5">Login</span>
             </Link>
           </li>
-
+          </>
+          }
           <li>
             <Link
               className="px-3 py-2 flex items-center uppercase leading-snug hover:opacity-75"

@@ -25,7 +25,7 @@ export const PropertyCard = ({
           {address} #{id}
         </p>
         <p className="text-sm">
-          Pending Requests: {maintenanceRequests && maintenanceRequests.length}
+          Pending Requests: {(maintenanceRequests && maintenanceRequests.length) || 0}
         </p>
         <p className="text-sm">Monthly Profit: ${monthlyProfits}</p>
       </div>

@@ -144,17 +144,17 @@ export const addProperty = async (propertyInfo) => {
 export const editProperty = async (propertyInfo, propertyId) => {
   delete propertyInfo.units;
   delete propertyInfo.id;
-  delete propertyInfo.maintenance_costs;
+  delete propertyInfo.landowner_id;
 
   const property = await axios.put(`${baseUrl}property/${propertyId}`, {
     ...propertyInfo,
   });
 
-  if (property.status === 400) {
+  if (property.status != 200) {
     console.log("Something went wrong upating this property");
     return;
   } else {
-    return property;
+    return property.data[0];
   }
 };
 
