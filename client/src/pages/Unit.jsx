@@ -13,8 +13,11 @@ export const Unit = () => {
   const [showEditRequestModal, setShowEditRequestModal] = useState(false);
   const currentUserType = localStorage.getItem("currentUserType");
 
-  const handleEditClick = () => {
+  const handleEditClick = (unit) => {
     setShowEditUnitModal((prev) => !prev);
+    if(unit && unit.rent_amount){
+      getCurrentUnit()
+    }
   };
 
   const handleEditRequestClick = () => {
@@ -93,6 +96,7 @@ export const Unit = () => {
             rent_amount={unit.rent_amount}
             rent_deposit={unit.rent_deposit}
             lease={unit.lease}
+            close={handleEditClick}
           />
         </Modal>
       )}

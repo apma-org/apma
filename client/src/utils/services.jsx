@@ -216,7 +216,7 @@ export const editUnit = async (unitInfo, unitId, propertyId) => {
     console.log("Something went wrong with updating this unit");
     return;
   } else {
-    return unit;
+    return unit.data[0];
   }
 };
 

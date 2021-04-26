@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { editProperty } from "../utils/services";
+import { editUnit } from "../utils/services";
 
 export const UnitForm = ({
   unit_id,
@@ -7,6 +7,7 @@ export const UnitForm = ({
   rent_amount,
   rent_deposit,
   lease,
+  close
 }) => {
   const [unitInfo, setUnitInfo] = useState({
     rent_amount,
@@ -23,8 +24,8 @@ export const UnitForm = ({
     e.preventDefault();
     console.log("FORUM", { ...unitInfo, property_id: property_id });
     if (unitInfo) {
-      const data = await editProperty(unitInfo, unit_id, property_id);
-      console.log("blah", data);
+      const data = await editUnit(unitInfo, unit_id, property_id);
+      close(data)
     }
   };
 
