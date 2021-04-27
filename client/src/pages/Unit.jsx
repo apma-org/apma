@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import { MaintenanceForm } from "../components/MaintenanceForm";
 import { Modal } from "../components/Modal";
+import { LANDOWNER, TENANT } from "../utils/constants";
 import { UnitForm } from "../components/UnitForm";
 import { getUnit, deleteUnit, assignTenant } from "../utils/services";
 
@@ -12,15 +13,15 @@ export const Unit = () => {
   const [showEditUnitModal, setShowEditUnitModal] = useState(false);
   const [showEditRequestModal, setShowEditRequestModal] = useState(false);
   const [showDeleteUnitModal, setShowDeleteUnitModal] = useState(false);
-  const [showUnassignModal, setShowUnassignModal] = useState(false)
+  const [showUnassignModal, setShowUnassignModal] = useState(false);
   const currentUserType = localStorage.getItem("currentUserType");
 
-  const [tenantFormData, setTenantFormData] = useState("")
+  const [tenantFormData, setTenantFormData] = useState("");
 
   const handleEditClick = (unit) => {
     setShowEditUnitModal((prev) => !prev);
-    if(unit && unit.rent_amount){
-      getCurrentUnit()
+    if (unit && unit.rent_amount) {
+      getCurrentUnit();
     }
   };
 
@@ -29,56 +30,49 @@ export const Unit = () => {
   };
 
   const handleDeleteClick = () => {
-    setShowDeleteUnitModal((prev) => !prev)
-  }
+    setShowDeleteUnitModal((prev) => !prev);
+  };
 
   const handleUnassignClick = () => {
-    setShowUnassignModal((prev) => !prev)
-  }
+    setShowUnassignModal((prev) => !prev);
+  };
 
   const handleDeleteConfirm = async () => {
     const pid = unit.property_id;
     const deleted = await deleteUnit(uid);
-    if(deleted){
-      history.push(`/property/${pid}`)
+    if (deleted) {
+      history.push(`/property/${pid}`);
     }
-  }
+  };
 
   const handleUnassignConfirm = async () => {
-    const success = await assignTenant(unit.tenant.id, null)
-    if(success){
-      getCurrentUnit()
+    setShowUnassignModal((prev) => !prev);
+    const success = await assignTenant(unit.tenant.id, null);
+    if (success) {
+      getCurrentUnit();
     }
-  }
+  };
 
   const handleAddMaintenance = () => {
     history.push(`/addMaintenance/${uid}`);
   };
 
   const handleTenantSubmit = async (e) => {
-    e.preventDefault()
-    const success = await assignTenant(tenantFormData, uid)
-    if(success){
-      getCurrentUnit()
+    e.preventDefault();
+    const success = await assignTenant(tenantFormData, uid);
+    if (success) {
+      getCurrentUnit();
     }
-  }
+  };
 
   const getCurrentUnit = async () => {
     const unitData = await getUnit(uid);
     setUnit(unitData.data);
   };
 
-  console.log(
-    "lieurbfdjs TYPE!!",
-    currentUserType,
-    currentUserType === "LANDOWNER"
-  );
-
   useEffect(() => {
     uid && getCurrentUnit();
   }, [uid]);
-
-  console.log(tenantFormData)
 
   return (
     <div className="max-w-full text-black m-10 px-5 py-5 rounded-xl shadow-xl">
@@ -118,7 +112,7 @@ export const Unit = () => {
               </Modal>
             )}
           </div>
-        ):(
+        ) : (
           <div className="text-center bg-green-100 justify-center items-center w-6/12">
             <form onSubmit={handleTenantSubmit}>
               <div className="mt-5">
@@ -176,7 +170,7 @@ export const Unit = () => {
           ))}
         {}
       </div>
-      {currentUserType === "LANDOWNER" && showEditUnitModal && (
+      {currentUserType === LANDOWNER && showEditUnitModal && (
         <Modal close={handleEditClick}>
           <UnitForm
             unit_id={uid}
@@ -185,10 +179,11 @@ export const Unit = () => {
             rent_deposit={unit.rent_deposit}
             lease={unit.lease}
             close={handleEditClick}
+            isAdding={false}
           />
         </Modal>
       )}
-      {currentUserType === "LANDOWNER" && showDeleteUnitModal && (
+      {currentUserType === LANDOWNER && showDeleteUnitModal && (
         <Modal close={handleDeleteClick}>
           <h4 className="text-xl block justify-center text-center">
             <b>Are you sure you want to delete this property?</b>
@@ -203,7 +198,7 @@ export const Unit = () => {
           </div>
         </Modal>
       )}
-      {currentUserType === "TENANT" && (
+      {currentUserType === TENANT && (
         <button
           className="bg-green-100 font-bold text-sm uppercase rounded-3xl p-2.5 hover:bg-green-200 text-white m-8"
           onClick={handleAddMaintenance}
