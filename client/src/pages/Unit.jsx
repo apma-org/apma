@@ -3,7 +3,7 @@ import { useParams, useHistory } from "react-router-dom";
 import { MaintenanceForm } from "../components/MaintenanceForm";
 import { Modal } from "../components/Modal";
 import { UnitForm } from "../components/UnitForm";
-import { getUnit } from "../utils/services";
+import { getUnit, deleteUnit } from "../utils/services";
 
 export const Unit = () => {
   const history = useHistory();
@@ -11,6 +11,7 @@ export const Unit = () => {
   const [unit, setUnit] = useState({});
   const [showEditUnitModal, setShowEditUnitModal] = useState(false);
   const [showEditRequestModal, setShowEditRequestModal] = useState(false);
+  const [showDeleteUnitModal, setShowDeleteUnitModal] = useState(false);
   const currentUserType = localStorage.getItem("currentUserType");
 
   const handleEditClick = (unit) => {
@@ -23,6 +24,18 @@ export const Unit = () => {
   const handleEditRequestClick = () => {
     showEditRequestModal((prev) => !prev);
   };
+
+  const handleDeleteClick = () => {
+    setShowDeleteUnitModal((prev) => !prev)
+  }
+
+  const handleDeleteConfirm = async () => {
+    const pid = unit.property_id;
+    const deleted = await deleteUnit(uid);
+    if(deleted){
+      history.push(`/property/${pid}`)
+    }
+  }
 
   const handleAddMaintenance = () => {
     history.push(`/addMaintenance/${uid}`);
@@ -62,10 +75,16 @@ export const Unit = () => {
           </div>
         )}
         <button
-          className="bg-green-100 font-bold text-sm uppercase rounded-3xl p-2.5 hover:bg-green-200 text-white m-8"
+          className="bg-green-100 font-bold w-auto text-sm uppercase rounded-3xl p-2.5 hover:bg-green-200 text-white m-8"
           onClick={handleEditClick}
         >
           {showEditUnitModal ? "Close" : "Edit"}
+        </button>
+        <button
+          className="bg-green-100 font-bold w-auto text-sm uppercase rounded-3xl p-2.5 hover:bg-green-200 text-white m-8"
+          onClick={handleDeleteClick}
+        >
+          Delete
         </button>
       </div>
       <div>
@@ -98,6 +117,21 @@ export const Unit = () => {
             lease={unit.lease}
             close={handleEditClick}
           />
+        </Modal>
+      )}
+      {currentUserType === "LANDOWNER" && showDeleteUnitModal && (
+        <Modal close={handleDeleteClick}>
+          <h4 className="text-xl block justify-center text-center">
+            <b>Are you sure you want to delete this property?</b>
+          </h4>
+          <div className="flex flex-row space-x-20 justify-center items-center">
+            <button
+              className="mt-10 py-3 bg-green-200 text-white w-6/12 hover:bg-green-300 rounded-xl"
+              onClick={handleDeleteConfirm}
+            >
+              Confirm
+            </button>
+          </div>
         </Modal>
       )}
       {currentUserType === "TENANT" && (

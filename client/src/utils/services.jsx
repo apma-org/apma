@@ -163,7 +163,8 @@ export const editProperty = async (propertyInfo, propertyId) => {
  * @param {*} propertyId Property Id number
  */
 export const deleteProperty = async (propertyId) => {
-  await axios.delete(`${baseUrl}property/${propertyId}`);
+  const data = await axios.delete(`${baseUrl}property/${propertyId}`);
+  return data.status == 200
 };
 
 /**
@@ -226,7 +227,8 @@ export const editUnit = async (unitInfo, unitId, propertyId) => {
  * @returns Success Status
  */
 export const deleteUnit = async (unitId) => {
-  await axios.delete(`${baseUrl}unit/${unitId}`);
+  const data = await axios.delete(`${baseUrl}unit/${unitId}`);
+  return data.status == 200
 };
 
 // TODO: Is Maintenance request field a decimal?
