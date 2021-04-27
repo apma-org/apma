@@ -1,8 +1,12 @@
-import React, { createContext } from "react";
+import { createContext } from "react";
 
 const UserContext = createContext({
-  user: null,
-  updateUser: () => {},
+  userId: null,
+  userType: null,
+  userName: null,
+  updateUserId: () => {},
+  updateUserType: () => {},
+  updateUserName: () => {},
 });
 
 export default UserContext;
