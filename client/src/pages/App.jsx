@@ -9,6 +9,7 @@ import { Properties } from "./Properties";
 import { Property } from "./Property";
 import { NewProperty } from "./NewProperty";
 import { Unit } from "./Unit";
+import { TenantHome } from "./TenantHome";
 import { NewUnit } from "./NewUnit";
 import { NewMaintenance } from "./NewMaintenance";
 
@@ -26,6 +27,7 @@ const App = () => {
           <Route path="/header" component={Header} />
           <Route path="/login" component={Login} />
           <Route path="/register" component={SignUp} />
+          <Route path="/tenantHome" component={TenantHome} />
           <Route path="/properties" component={Properties} />
           <Route path="/property/:pid" children={<Property />} />
           <Route path="/unit/:uid" children={<Unit />} />

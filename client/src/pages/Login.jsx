@@ -4,7 +4,7 @@ import { getTenant, login } from "../utils/services";
 
 export const Login = () => {
   const history = useHistory();
-  const [loginInfo, setLoginInfo] = useState({});
+  const [loginInfo, setLoginInfo] = useState({type:"TENANT"});
 
   const handleChange = ({ target: { name, value } }) => {
     setLoginInfo((prevState) => ({ ...prevState, [name]: value }));
