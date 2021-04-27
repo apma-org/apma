@@ -239,16 +239,11 @@ export const deleteUnit = async (unitId) => {
  * @returns Success Message
  */
 export const addMaintenance = async (maintenanceInfo) => {
-  const maintenance = await axios.post(`${baseUrl}maintenannce`, {
+  const maintenance = await axios.post(`${baseUrl}maintenance`, {
     ...maintenanceInfo,
   });
 
-  if (maintenance.status === 200) {
-    return maintenance.message;
-  } else {
-    console.log("Something went wrong with adding this request");
-    return;
-  }
+  return maintenance.status == 200
 };
 
 /**

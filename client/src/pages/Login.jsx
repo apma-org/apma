@@ -6,7 +6,7 @@ import UserContext from "../context/UserContext";
 
 export const Login = () => {
   const history = useHistory();
-  const [loginInfo, setLoginInfo] = useState({});
+  const [loginInfo, setLoginInfo] = useState({type:"TENANT"});
   const { updateUserId, updateUserType, updateUserName } = useContext(
     UserContext
   );
