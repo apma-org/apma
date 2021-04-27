@@ -96,10 +96,14 @@ export const editTenant = async (tenantId, tenantInfo) => {
     ...tenantInfo,
   });
 
-  if (user.status === 200) {
-    return user.message;
-  }
+  return user.status == 200
 };
+
+
+export const assignTenant = async (tenant_id, unit_id) => {
+  return await editTenant(tenant_id, {unit_id:unit_id})
+}
+
 
 /* Landowner Function */
 /**
@@ -302,3 +306,4 @@ export const editMaintenance = async (
 export const deleteMaintenance = async (maintenanceId) => {
   await axios.delete(`${baseUrl}maintenance/${maintenanceId}`);
 };
+

@@ -3,7 +3,7 @@ import { useParams, useHistory } from "react-router-dom";
 import { MaintenanceForm } from "../components/MaintenanceForm";
 import { Modal } from "../components/Modal";
 import { UnitForm } from "../components/UnitForm";
-import { getUnit, deleteUnit } from "../utils/services";
+import { getUnit, deleteUnit, assignTenant } from "../utils/services";
 
 export const Unit = () => {
   const history = useHistory();
@@ -12,7 +12,10 @@ export const Unit = () => {
   const [showEditUnitModal, setShowEditUnitModal] = useState(false);
   const [showEditRequestModal, setShowEditRequestModal] = useState(false);
   const [showDeleteUnitModal, setShowDeleteUnitModal] = useState(false);
+  const [showUnassignModal, setShowUnassignModal] = useState(false)
   const currentUserType = localStorage.getItem("currentUserType");
+
+  const [tenantFormData, setTenantFormData] = useState("")
 
   const handleEditClick = (unit) => {
     setShowEditUnitModal((prev) => !prev);
@@ -22,11 +25,15 @@ export const Unit = () => {
   };
 
   const handleEditRequestClick = () => {
-    showEditRequestModal((prev) => !prev);
+    setShowEditRequestModal((prev) => !prev);
   };
 
   const handleDeleteClick = () => {
     setShowDeleteUnitModal((prev) => !prev)
+  }
+
+  const handleUnassignClick = () => {
+    setShowUnassignModal((prev) => !prev)
   }
 
   const handleDeleteConfirm = async () => {
@@ -37,9 +44,24 @@ export const Unit = () => {
     }
   }
 
+  const handleUnassignConfirm = async () => {
+    const success = await assignTenant(unit.tenant.id, null)
+    if(success){
+      getCurrentUnit()
+    }
+  }
+
   const handleAddMaintenance = () => {
     history.push(`/addMaintenance/${uid}`);
   };
+
+  const handleTenantSubmit = async (e) => {
+    e.preventDefault()
+    const success = await assignTenant(tenantFormData, uid)
+    if(success){
+      getCurrentUnit()
+    }
+  }
 
   const getCurrentUnit = async () => {
     const unitData = await getUnit(uid);
@@ -56,22 +78,67 @@ export const Unit = () => {
     uid && getCurrentUnit();
   }, [uid]);
 
+  console.log(tenantFormData)
+
   return (
     <div className="max-w-full text-black m-10 px-5 py-5 rounded-xl shadow-xl">
       <h3 className="text-2xl block justify-center text-center m-4">
-        Unit #{unit.property_id}
+        Property #{unit.property_id}
       </h3>
       <div className="text-center justify-center items-center">
         <p>Rent Amount: {unit.rent_amount}</p>
         <p>Rent Deposit: {unit.rent_deposit}</p>
         <p>Lease: {unit.lease}</p>
-        {unit.tenant && (
+        {unit.tenant ? (
           <div>
             <p>Tenant #{unit.tenant.id}</p>
             <p>
               Name: {unit.tenant.first_name} {unit.tenant.last_name}
             </p>
             <p>Email: {unit.tenant.email}</p>
+            <button
+              className="bg-green-100 font-bold w-auto text-sm uppercase rounded-3xl p-2.5 hover:bg-green-200 text-white m-8"
+              onClick={handleUnassignClick}
+            >
+              Unassign Tenant
+            </button>
+            {showUnassignModal && (
+              <Modal close={handleUnassignClick}>
+                <h4 className="text-xl block justify-center text-center">
+                  <b>Are you sure you want to unassign this tenant?</b>
+                </h4>
+                <div className="flex flex-row space-x-20 justify-center items-center">
+                  <button
+                    className="mt-10 py-3 bg-green-200 text-white w-6/12 hover:bg-green-300 rounded-xl"
+                    onClick={handleUnassignConfirm}
+                  >
+                    Confirm
+                  </button>
+                </div>
+              </Modal>
+            )}
+          </div>
+        ):(
+          <div className="text-center bg-green-100 justify-center items-center w-6/12">
+            <form onSubmit={handleTenantSubmit}>
+              <div className="mt-5">
+                <label>Assign Tenant:</label>
+                <input
+                  required
+                  type="text"
+                  name="address"
+                  value={tenantFormData}
+                  className="text-gray-900 block w-full p-2 border-none rounded-lg"
+                  onChange={(e) => setTenantFormData(e.target.value)}
+                />
+              </div>
+              <button
+                type="submit"
+                className="mt-10 py-3 bg-green-200 text-white w-6/12 hover:bg-green-300 rounded-xl"
+              >
+                Submit
+              </button>
+            </form>
           </div>
         )}
         <button
@@ -96,6 +163,7 @@ export const Unit = () => {
               <p>Message #{e.request} : </p>
               <p>Date Created #{e.date_created} : </p>
               <p>Date Fixed #{e.date_fixed} : </p>
+              {/*}
               <Modal close={handleEditRequestClick}>
                 <MaintenanceForm
                   unit_id={uid}
@@ -103,6 +171,7 @@ export const Unit = () => {
                   request={e.request}
                 />
               </Modal>
+              */}
             </div>
           ))}
         {}
