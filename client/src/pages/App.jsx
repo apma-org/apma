@@ -9,7 +9,6 @@ import { Properties } from "./Properties";
 import { Property } from "./Property";
 import { Unit } from "./Unit";
 import { TenantHome } from "./TenantHome";
-import { NewUnit } from "./NewUnit";
 import { NewMaintenance } from "./NewMaintenance";
 import UserContext from "../context/UserContext";
 
