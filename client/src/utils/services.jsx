@@ -96,14 +96,12 @@ export const editTenant = async (tenantId, tenantInfo) => {
     ...tenantInfo,
   });
 
-  return user.status == 200
+  return user.status === 200;
 };
 
-
 export const assignTenant = async (tenant_id, unit_id) => {
-  return await editTenant(tenant_id, {unit_id:unit_id})
-}
-
+  return await editTenant(tenant_id, { unit_id: unit_id });
+};
 
 /* Landowner Function */
 /**
@@ -154,7 +152,7 @@ export const editProperty = async (propertyInfo, propertyId) => {
     ...propertyInfo,
   });
 
-  if (property.status != 200) {
+  if (property.status !== 200) {
     console.log("Something went wrong upating this property");
     return;
   } else {
@@ -168,7 +166,7 @@ export const editProperty = async (propertyInfo, propertyId) => {
  */
 export const deleteProperty = async (propertyId) => {
   const data = await axios.delete(`${baseUrl}property/${propertyId}`);
-  return data.status == 200
+  return data.status === 200;
 };
 
 /**
@@ -211,7 +209,6 @@ export const addUnit = async (unitInfo) => {
  * @returns Modified Unit Object
  */
 export const editUnit = async (unitInfo, unitId, propertyId) => {
-  console.log("services", { ...unitInfo, property_id: propertyId });
   const unit = await axios.put(`${baseUrl}unit/${unitId}`, {
     ...unitInfo,
     property_id: propertyId,
@@ -232,7 +229,7 @@ export const editUnit = async (unitInfo, unitId, propertyId) => {
  */
 export const deleteUnit = async (unitId) => {
   const data = await axios.delete(`${baseUrl}unit/${unitId}`);
-  return data.status == 200
+  return data.status === 200;
 };
 
 // TODO: Is Maintenance request field a decimal?
@@ -306,4 +303,3 @@ export const editMaintenance = async (
 export const deleteMaintenance = async (maintenanceId) => {
   await axios.delete(`${baseUrl}maintenance/${maintenanceId}`);
 };
-
