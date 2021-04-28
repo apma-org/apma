@@ -12,9 +12,12 @@ import { TenantHome } from "./TenantHome";
 import UserContext from "../context/UserContext";
 
 const App = () => {
-  const [userId, setUserId] = useState(null);
-  const [userType, setUserType] = useState(null);
-  const [userName, setUserName] = useState(null);
+  const localId = localStorage.getItem("currentUserId");
+  const localType = localStorage.getItem("currentUserType");
+  const localName = localStorage.getItem("currentUserName");
+  const [userId, setUserId] = useState(localId || undefined);
+  const [userType, setUserType] = useState(localType || undefined);
+  const [userName, setUserName] = useState(localName || undefined);
   const updateUserId = (userId) => setUserId(userId);
   const updateUserType = (userType) => setUserType(userType);
   const updateUserName = (userName) => setUserName(userName);
@@ -33,6 +36,7 @@ const App = () => {
           }}
         >
           <NavBar />
+          <Header title={`APMA`} />
           <Switch>
             <Route path="/about" component={About} />
             <Route path="/login" component={Login} />
