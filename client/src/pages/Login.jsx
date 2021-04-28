@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import { getTenant, login } from "../utils/services";
 import { LANDOWNER, TENANT } from "../utils/constants";
@@ -6,38 +6,24 @@ import UserContext from "../context/UserContext";
 
 export const Login = () => {
   const history = useHistory();
-  const [loginInfo, setLoginInfo] = useState({type:"TENANT"});
+  const [loginInfo, setLoginInfo] = useState({ type: "TENANT" });
   const { updateUserId, updateUserType, updateUserName } = useContext(
     UserContext
   );
-  const [userId, setUserId] = useState(null);
-  const [userType, setUserType] = useState(null);
-  const [userName, setUserName] = useState(null);
-
-  useEffect(() => {
-    (async () => {
-      updateUserId(userId);
-    })();
-  }, [userId]);
-
-  useEffect(() => {
-    (async () => {
-      updateUserType(userType);
-    })();
-  }, [userType]);
-
-  useEffect(() => {
-    (async () => {
-      updateUserName(userName);
-    })();
-  }, [userName]);
 
   const handleChange = ({ target: { name, value } }) => {
-    setLoginInfo((prevState) => ({ ...prevState, [name]: value }));
+    setLoginInfo((prevState) => {
+      if (name === "current-password") {
+        return { ...prevState, password: value };
+      } else {
+        return { ...prevState, [name]: value };
+      }
+    });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("login", loginInfo);
     const userRes = await login(loginInfo);
     if (userRes && userRes.status === 200) {
       localStorage.setItem("currentUserId", userRes.data.id);
@@ -46,9 +32,10 @@ export const Login = () => {
         "currentUserName",
         `${userRes.data.first_name} ${userRes.data.last_name}`
       );
-      setUserId(userRes.data.id);
-      setUserType(loginInfo.type);
-      setUserName(`${userRes.data.first_name} ${userRes.data.last_name}`);
+
+      updateUserId(userRes.data.id);
+      updateUserType(loginInfo.type);
+      updateUserName(`${userRes.data.first_name} ${userRes.data.last_name}`);
 
       if (loginInfo.type === LANDOWNER) {
         history.push("/properties");
@@ -100,7 +87,7 @@ export const Login = () => {
           <input
             required
             type="password"
-            name="password"
+            name="current-password"
             className="text-gray-900 block w-full p-2 border-none rounded-lg"
             onChange={handleChange}
           />

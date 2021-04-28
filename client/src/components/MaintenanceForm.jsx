@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { editMaintenance, editProperty } from "../utils/services";
+import { editMaintenance } from "../utils/services";
 
 export const MaintenanceForm = ({ unit_id, maintenance_id, request }) => {
   const [maintenanceInfo, setMaintenanceInfo] = useState({
@@ -12,7 +12,6 @@ export const MaintenanceForm = ({ unit_id, maintenance_id, request }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("FORUM M", { ...maintenanceInfo, unit_id: unit_id });
     if (maintenanceInfo) {
       const data = await editMaintenance(
         maintenanceInfo,

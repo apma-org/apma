@@ -243,7 +243,7 @@ export const addMaintenance = async (maintenanceInfo) => {
     ...maintenanceInfo,
   });
 
-  return maintenance.status == 200
+  return maintenance.status === 200;
 };
 
 /**
@@ -269,12 +269,10 @@ export const getMaintenance = async (maintenanceId) => {
  * @param {*} unitId Unit Id number that maintenance request belongs to
  * @returns Modified Maintenance Object
  */
-export const editMaintenance = async (
-  maintenanceInfo,
-  maintenanceId,
-) => {
+export const editMaintenance = async (maintenanceInfo, maintenanceId) => {
   const maintenance = await axios.put(
-    `${baseUrl}maintenance/${maintenanceId}`, maintenanceInfo
+    `${baseUrl}maintenance/${maintenanceId}`,
+    maintenanceInfo
   );
 
   if (maintenance.status === 400) {

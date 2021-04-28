@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
+import UserContext from "../context/UserContext";
+import { LANDOWNER, TENANT } from "../utils/constants";
 import { register, login, getTenant } from "../utils/services";
 
 export const SignUp = () => {
@@ -7,6 +9,9 @@ export const SignUp = () => {
   const [registerInfo, setRegisterInfo] = useState({
     type: "TENANT",
   });
+  const { updateUserId, updateUserType, updateUserName } = useContext(
+    UserContext
+  );
 
   const handleChange = ({ target: { name, value } }) => {
     setRegisterInfo((prevState) => ({ ...prevState, [name]: value }));
@@ -28,7 +33,12 @@ export const SignUp = () => {
           "currentUserName",
           `${userRes.data.first_name} ${userRes.data.last_name}`
         );
-        if (registerInfo.type === "LANDOWNER") {
+
+        updateUserId(userRes.data.id);
+        updateUserType(registerInfo.type);
+        updateUserName(`${userRes.data.first_name} ${userRes.data.last_name}`);
+
+        if (registerInfo.type === LANDOWNER) {
           history.push("/properties");
         } else {
           const tenant = await getTenant(userRes.data.id);
@@ -62,8 +72,8 @@ export const SignUp = () => {
               onChange={handleChange}
               defaultValue={registerInfo.type}
             >
-              <option value="TENANT">Tenant</option>
-              <option value="LANDOWNER">Landowner</option>
+              <option value={TENANT}>Tenant</option>
+              <option value={LANDOWNER}>Landowner</option>
             </select>
           </label>
         </div>
