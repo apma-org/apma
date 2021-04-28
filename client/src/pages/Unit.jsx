@@ -1,17 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useHistory } from "react-router-dom";
-import { MaintenanceForm } from "../components/MaintenanceForm";
 import { Modal } from "../components/Modal";
-import { LANDOWNER, TENANT } from "../utils/constants";
+import { LANDOWNER } from "../utils/constants";
 import { UnitForm } from "../components/UnitForm";
-import { getUnit, deleteUnit, assignTenant, editMaintenance } from "../utils/services";
+import {
+  getUnit,
+  deleteUnit,
+  assignTenant,
+  editMaintenance,
+} from "../utils/services";
 
 export const Unit = () => {
   const history = useHistory();
   const { uid } = useParams();
   const [unit, setUnit] = useState({});
   const [showEditUnitModal, setShowEditUnitModal] = useState(false);
-  const [showEditRequestModal, setShowEditRequestModal] = useState(false);
   const [showDeleteUnitModal, setShowDeleteUnitModal] = useState(false);
   const [showUnassignModal, setShowUnassignModal] = useState(false);
   const currentUserType = localStorage.getItem("currentUserType");
@@ -23,10 +26,6 @@ export const Unit = () => {
     if (unit && unit.rent_amount) {
       getCurrentUnit();
     }
-  };
-
-  const handleEditRequestClick = () => {
-    setShowEditRequestModal((prev) => !prev);
   };
 
   const handleDeleteClick = () => {
@@ -54,17 +53,22 @@ export const Unit = () => {
   };
 
   const processMaintenanceRequest = async (maintenanceData) => {
-    const m_id = maintenanceData.id
-    delete maintenanceData.id
-    var d = new Date()
-    const date = (d.getMonth()+1) + "/" + d.getDate() + "/" + (d.getFullYear().toString().slice(-2))
-    maintenanceData.date_fixed = date
-    const success = await editMaintenance(maintenanceData, m_id)
-    if(success){
-      getCurrentUnit()
+    const m_id = maintenanceData.id;
+    delete maintenanceData.id;
+    var d = new Date();
+    const date =
+      d.getMonth() +
+      1 +
+      "/" +
+      d.getDate() +
+      "/" +
+      d.getFullYear().toString().slice(-2);
+    maintenanceData.date_fixed = date;
+    const success = await editMaintenance(maintenanceData, m_id);
+    if (success) {
+      getCurrentUnit();
     }
-  }
-
+  };
 
   const handleTenantSubmit = async (e) => {
     e.preventDefault();
@@ -166,13 +170,14 @@ export const Unit = () => {
               <p>Message #{e.request} : </p>
               <p>Date Created #{e.date_created} : </p>
               <p>Date Fixed #{e.date_fixed} : </p>
-              {!e.date_fixed &&
-              <button
-                className="bg-green-100 font-bold w-auto text-sm uppercase rounded-3xl p-2.5 hover:bg-green-200 text-white m-8"
-                onClick={() => processMaintenanceRequest(e)}
-              >
-                Mark as Fixed
-              </button>}
+              {!e.date_fixed && (
+                <button
+                  className="bg-green-100 font-bold w-auto text-sm uppercase rounded-3xl p-2.5 hover:bg-green-200 text-white m-8"
+                  onClick={() => processMaintenanceRequest(e)}
+                >
+                  Mark as Fixed
+                </button>
+              )}
             </div>
           ))}
         {}

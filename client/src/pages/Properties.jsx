@@ -28,7 +28,7 @@ export const Properties = () => {
 
   useEffect(() => {
     currentUserId && getProperties();
-  }, []);
+  }, [currentUserId]);
 
   return (
     <div className="max-w-full text-black m-10 px-5 py-5 rounded-xl shadow-xl">
