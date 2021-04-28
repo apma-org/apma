@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
+import { getProperty, deleteProperty } from "../utils/services";
+import { Header } from "../components/Header";
 import { Modal } from "../components/Modal";
+import { DeleteModal } from "../components/ModalTypes";
 import { PropertyForm } from "../components/PropertyForm";
 import { UnitCard } from "../components/UnitCard";
 import { UnitForm } from "../components/UnitForm";
-import { getProperty, deleteProperty } from "../utils/services";
 
 export const Property = () => {
   const history = useHistory();
@@ -54,34 +56,35 @@ export const Property = () => {
   }, [pid]);
 
   return (
-    <div className="max-w-full text-black m-10 px-5 py-5 rounded-xl shadow-xl">
+    <div className="max-w-full text-black m-10 px-5 py-5 pb-10 rounded-xl shadow-xl">
+      <Header title={`APMA`} />
+
       {isLoading ? (
         <div> Loading...</div>
       ) : (
         <>
           <h3 className="text-2xl block justify-center text-center m-4">
             {property.city}, {property.state} #{property.id}
+            <br />
+            Appreciation:${property.appreciation}/month
           </h3>
 
-          <div className="flex flex-row space-x-20 justify-center items-center">
-            <h4 className="text-xl block justify-center text-center">
-              <b>Appreciation:</b> ${property.appreciation}/month
-            </h4>
+          <div className="flex flex-row justify-center items-center">
             <button
-              className="bg-green-100 font-bold text-sm uppercase rounded-xl p-2.5 hover:bg-green-200 text-white m-8"
+              className="bg-green-100 font-bold text-sm uppercase rounded-xl hover:bg-green-200 text-white p-2 m-4 shadow-lg"
               onClick={handleEditClick}
             >
               Edit Property
             </button>
             <button
-              className="bg-green-100 font-bold text-sm uppercase rounded-xl p-2.5 hover:bg-green-200 text-white m-8"
+              className="bg-green-100 font-bold text-sm uppercase rounded-xl hover:bg-green-200 text-white p-2 m-4 shadow-lg"
               onClick={handleDeleteClick}
             >
               Delete Property
             </button>
             {!isAddingUnit ? (
               <button
-                className="bg-green-100 font-bold text-sm uppercase rounded-xl p-2.5 hover:bg-green-200 text-white m-8"
+                className="bg-green-100 font-bold text-sm uppercase rounded-xl  hover:bg-green-200 text-white p-2 m-4 shadow-lg"
                 onClick={handleAddUnitClick}
               >
                 Add Unit
@@ -123,19 +126,11 @@ export const Property = () => {
             </Modal>
           )}
           {showDeletePropertyModal && (
-            <Modal close={handleDeleteClick}>
-              <h4 className="text-xl block justify-center text-center">
-                <b>Are you sure you want to delete this property?</b>
-              </h4>
-              <div className="flex flex-row space-x-20 justify-center items-center">
-                <button
-                  className="mt-10 py-3 bg-green-200 text-white w-6/12 hover:bg-green-300 rounded-xl"
-                  onClick={handleDeleteConfirm}
-                >
-                  Confirm
-                </button>
-              </div>
-            </Modal>
+            <DeleteModal
+              handleModalClick={handleDeleteClick}
+              handleDeleteConfirm={handleDeleteConfirm}
+              obType={`property`}
+            />
           )}
         </>
       )}
