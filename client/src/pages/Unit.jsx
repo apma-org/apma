@@ -4,7 +4,7 @@ import { MaintenanceForm } from "../components/MaintenanceForm";
 import { Modal } from "../components/Modal";
 import { LANDOWNER, TENANT } from "../utils/constants";
 import { UnitForm } from "../components/UnitForm";
-import { getUnit, deleteUnit, assignTenant } from "../utils/services";
+import { getUnit, deleteUnit, assignTenant, editMaintenance } from "../utils/services";
 
 export const Unit = () => {
   const history = useHistory();
@@ -53,9 +53,18 @@ export const Unit = () => {
     }
   };
 
-  const handleAddMaintenance = () => {
-    history.push(`/addMaintenance/${uid}`);
-  };
+  const processMaintenanceRequest = async (maintenanceData) => {
+    const m_id = maintenanceData.id
+    delete maintenanceData.id
+    var d = new Date()
+    const date = (d.getMonth()+1) + "/" + d.getDate() + "/" + (d.getFullYear().toString().slice(-2))
+    maintenanceData.date_fixed = date
+    const success = await editMaintenance(maintenanceData, m_id)
+    if(success){
+      getCurrentUnit()
+    }
+  }
+
 
   const handleTenantSubmit = async (e) => {
     e.preventDefault();
@@ -157,15 +166,13 @@ export const Unit = () => {
               <p>Message #{e.request} : </p>
               <p>Date Created #{e.date_created} : </p>
               <p>Date Fixed #{e.date_fixed} : </p>
-              {/*}
-              <Modal close={handleEditRequestClick}>
-                <MaintenanceForm
-                  unit_id={uid}
-                  maintenance_id={e.id}
-                  request={e.request}
-                />
-              </Modal>
-              */}
+              {!e.date_fixed &&
+              <button
+                className="bg-green-100 font-bold w-auto text-sm uppercase rounded-3xl p-2.5 hover:bg-green-200 text-white m-8"
+                onClick={() => processMaintenanceRequest(e)}
+              >
+                Mark as Fixed
+              </button>}
             </div>
           ))}
         {}
@@ -197,14 +204,6 @@ export const Unit = () => {
             </button>
           </div>
         </Modal>
-      )}
-      {currentUserType === TENANT && (
-        <button
-          className="bg-green-100 font-bold text-sm uppercase rounded-3xl p-2.5 hover:bg-green-200 text-white m-8"
-          onClick={handleAddMaintenance}
-        >
-          Make A Request
-        </button>
       )}
     </div>
   );

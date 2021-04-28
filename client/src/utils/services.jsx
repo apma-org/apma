@@ -272,14 +272,9 @@ export const getMaintenance = async (maintenanceId) => {
 export const editMaintenance = async (
   maintenanceInfo,
   maintenanceId,
-  unitId
 ) => {
   const maintenance = await axios.put(
-    `${baseUrl}maintenance/${maintenanceId}`,
-    {
-      ...maintenanceInfo,
-      unit_id: unitId,
-    }
+    `${baseUrl}maintenance/${maintenanceId}`, maintenanceInfo
   );
 
   if (maintenance.status === 400) {
