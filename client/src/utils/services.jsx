@@ -291,5 +291,6 @@ export const editMaintenance = async (
  * @returns Success Status
  */
 export const deleteMaintenance = async (maintenanceId) => {
-  await axios.delete(`${baseUrl}maintenance/${maintenanceId}`);
+  const data = await axios.delete(`${baseUrl}maintenance/${maintenanceId}`);
+  return data.status == 200;
 };
