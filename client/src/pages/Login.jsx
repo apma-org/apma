@@ -1,10 +1,36 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { getTenant, login } from "../utils/services";
+import { LANDOWNER, TENANT } from "../utils/constants";
+import UserContext from "../context/UserContext";
 
 export const Login = () => {
   const history = useHistory();
-  const [loginInfo, setLoginInfo] = useState({});
+  const [loginInfo, setLoginInfo] = useState({type:"TENANT"});
+  const { updateUserId, updateUserType, updateUserName } = useContext(
+    UserContext
+  );
+  const [userId, setUserId] = useState(null);
+  const [userType, setUserType] = useState(null);
+  const [userName, setUserName] = useState(null);
+
+  useEffect(() => {
+    (async () => {
+      updateUserId(userId);
+    })();
+  }, [userId]);
+
+  useEffect(() => {
+    (async () => {
+      updateUserType(userType);
+    })();
+  }, [userType]);
+
+  useEffect(() => {
+    (async () => {
+      updateUserName(userName);
+    })();
+  }, [userName]);
 
   const handleChange = ({ target: { name, value } }) => {
     setLoginInfo((prevState) => ({ ...prevState, [name]: value }));
@@ -20,7 +46,11 @@ export const Login = () => {
         "currentUserName",
         `${userRes.data.first_name} ${userRes.data.last_name}`
       );
-      if (loginInfo.type === "LANDOWNER") {
+      setUserId(userRes.data.id);
+      setUserType(loginInfo.type);
+      setUserName(`${userRes.data.first_name} ${userRes.data.last_name}`);
+
+      if (loginInfo.type === LANDOWNER) {
         history.push("/properties");
       } else {
         const tenant = await getTenant(userRes.data.id);
@@ -50,8 +80,8 @@ export const Login = () => {
               required
               onChange={handleChange}
             >
-              <option value="TENANT">Tenant</option>
-              <option value="LANDOWNER">Landowner</option>
+              <option value={TENANT}>Tenant</option>
+              <option value={LANDOWNER}>Landowner</option>
             </select>
           </label>
         </div>

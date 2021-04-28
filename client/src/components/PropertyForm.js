@@ -1,58 +1,41 @@
 import React, { useState } from "react";
-import { editProperty } from "../utils/services";
+import { addProperty, editProperty } from "../utils/services";
 
-export const PropertyForm = ({ property }) => {
-  const [propertyInfo, setPropertyInfo] = useState({
-    ...property,
-  });
+export const PropertyForm = ({ property, close, isAdding, userId }) => {
+  const [propertyInfo, setPropertyInfo] = useState(
+    property
+      ? {
+          ...property,
+        }
+      : {
+          address: "",
+          city: "",
+          zipcode: "",
+          state: "",
+          mortgage: null,
+          tax: null,
+          insurance: null,
+          appreciation: null,
+        }
+  );
 
   const handleChange = ({ target: { name, value } }) => {
-    console.log("value changed");
     setPropertyInfo((prevState) => ({ ...prevState, [name]: value }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("property info", propertyInfo);
     if (propertyInfo) {
-      const property = await editProperty(propertyInfo, propertyInfo.id);
-      setPropertyInfo(property);
+      const property = isAdding
+        ? await addProperty({ ...propertyInfo, landowner_id: userId })
+        : await editProperty(propertyInfo, propertyInfo.id);
+      // setPropertyInfo(property);
+      close(property);
     }
-  };
-
-  // TODO: In progress
-  const CustomInput = ({ name, type, value, onChange }) => {
-    if (type === "number") {
-      onChange = (e) => {
-        e.target.value = e.target.value.replace(/^\d+\.\d{0,2}$/, "");
-        onChange(e);
-      };
-    }
-    return (
-      <div className="mt-5">
-        <label style={{ textTransform: "capitalize" }}>{name}</label>
-        <input
-          required
-          type="text"
-          name={name}
-          value={value}
-          className="text-gray-900 block w-full p-2 border-none rounded-lg"
-          onChange={onChange}
-        />
-      </div>
-    );
   };
 
   return (
     <form onSubmit={handleSubmit}>
-      {/* {Object.entries(propertyInfo).map(([key, value]) => (
-        <CustomInput
-          name={key}
-          type="text"
-          value={value}
-          onChange={handleChange}
-        />
-      ))} */}
       <div className="mt-5">
         <label>Address</label>
         <input

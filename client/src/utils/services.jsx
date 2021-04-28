@@ -96,9 +96,11 @@ export const editTenant = async (tenantId, tenantInfo) => {
     ...tenantInfo,
   });
 
-  if (user.status === 200) {
-    return user.message;
-  }
+  return user.status === 200;
+};
+
+export const assignTenant = async (tenant_id, unit_id) => {
+  return await editTenant(tenant_id, { unit_id: unit_id });
 };
 
 /* Landowner Function */
@@ -144,17 +146,17 @@ export const addProperty = async (propertyInfo) => {
 export const editProperty = async (propertyInfo, propertyId) => {
   delete propertyInfo.units;
   delete propertyInfo.id;
-  delete propertyInfo.maintenance_costs;
+  delete propertyInfo.landowner_id;
 
   const property = await axios.put(`${baseUrl}property/${propertyId}`, {
     ...propertyInfo,
   });
 
-  if (property.status === 400) {
+  if (property.status !== 200) {
     console.log("Something went wrong upating this property");
     return;
   } else {
-    return property;
+    return property.data[0];
   }
 };
 
@@ -163,7 +165,8 @@ export const editProperty = async (propertyInfo, propertyId) => {
  * @param {*} propertyId Property Id number
  */
 export const deleteProperty = async (propertyId) => {
-  await axios.delete(`${baseUrl}property/${propertyId}`);
+  const data = await axios.delete(`${baseUrl}property/${propertyId}`);
+  return data.status === 200;
 };
 
 /**
@@ -206,7 +209,6 @@ export const addUnit = async (unitInfo) => {
  * @returns Modified Unit Object
  */
 export const editUnit = async (unitInfo, unitId, propertyId) => {
-  console.log("services", { ...unitInfo, property_id: propertyId });
   const unit = await axios.put(`${baseUrl}unit/${unitId}`, {
     ...unitInfo,
     property_id: propertyId,
@@ -216,7 +218,7 @@ export const editUnit = async (unitInfo, unitId, propertyId) => {
     console.log("Something went wrong with updating this unit");
     return;
   } else {
-    return unit;
+    return unit.data[0];
   }
 };
 
@@ -226,7 +228,8 @@ export const editUnit = async (unitInfo, unitId, propertyId) => {
  * @returns Success Status
  */
 export const deleteUnit = async (unitId) => {
-  await axios.delete(`${baseUrl}unit/${unitId}`);
+  const data = await axios.delete(`${baseUrl}unit/${unitId}`);
+  return data.status === 200;
 };
 
 // TODO: Is Maintenance request field a decimal?
@@ -236,16 +239,11 @@ export const deleteUnit = async (unitId) => {
  * @returns Success Message
  */
 export const addMaintenance = async (maintenanceInfo) => {
-  const maintenance = await axios.post(`${baseUrl}maintenannce`, {
+  const maintenance = await axios.post(`${baseUrl}maintenance`, {
     ...maintenanceInfo,
   });
 
-  if (maintenance.status === 200) {
-    return maintenance.message;
-  } else {
-    console.log("Something went wrong with adding this request");
-    return;
-  }
+  return maintenance.status == 200
 };
 
 /**
@@ -274,14 +272,9 @@ export const getMaintenance = async (maintenanceId) => {
 export const editMaintenance = async (
   maintenanceInfo,
   maintenanceId,
-  unitId
 ) => {
   const maintenance = await axios.put(
-    `${baseUrl}maintenance/${maintenanceId}`,
-    {
-      ...maintenanceInfo,
-      unit_id: unitId,
-    }
+    `${baseUrl}maintenance/${maintenanceId}`, maintenanceInfo
   );
 
   if (maintenance.status === 400) {
@@ -298,5 +291,6 @@ export const editMaintenance = async (
  * @returns Success Status
  */
 export const deleteMaintenance = async (maintenanceId) => {
-  await axios.delete(`${baseUrl}maintenance/${maintenanceId}`);
+  const data = await axios.delete(`${baseUrl}maintenance/${maintenanceId}`);
+  return data.status == 200;
 };
