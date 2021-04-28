@@ -17,7 +17,6 @@ export const Property = () => {
 
   const handleEditClick = (propertyData) => {
     setShowEditPropertyModal((prev) => !prev);
-    console.log(propertyData);
     if (propertyData && propertyData.address) {
       getCurrentProperty();
     }
@@ -46,7 +45,6 @@ export const Property = () => {
 
   const getCurrentProperty = async () => {
     const propertyData = await getProperty(pid);
-    console.log(propertyData);
     setProperty(propertyData.data);
     setIsLoading(false);
   };

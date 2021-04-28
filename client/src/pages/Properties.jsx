@@ -48,7 +48,6 @@ export const Properties = () => {
             ) : (
               <Modal close={handleAddForm}>
                 <PropertyForm
-                  property={null}
                   close={handleUpdate}
                   isAdding={true}
                   userId={currentUserId}

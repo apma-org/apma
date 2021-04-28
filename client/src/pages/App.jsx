@@ -9,7 +9,6 @@ import { Properties } from "./Properties";
 import { Property } from "./Property";
 import { Unit } from "./Unit";
 import { TenantHome } from "./TenantHome";
-import { NewMaintenance } from "./NewMaintenance";
 import UserContext from "../context/UserContext";
 
 const App = () => {
@@ -44,7 +43,6 @@ const App = () => {
             <Route path="/properties" component={Properties} />
             <Route path="/property/:pid" children={<Property />} />
             <Route path="/unit/:uid" children={<Unit />} />
-            <Route path="/addMaintenance/:uid" children={<NewMaintenance />} />
           </Switch>
         </UserContext.Provider>
       </BrowserRouter>
