@@ -7,6 +7,7 @@ import UserContext from "../context/UserContext";
 export const Login = () => {
   const history = useHistory();
   const [loginInfo, setLoginInfo] = useState({ type: "TENANT" });
+  const [errorMessage, setErrorMessage] = useState("");
   const { updateUserId, updateUserType, updateUserName } = useContext(
     UserContext
   );
@@ -23,9 +24,9 @@ export const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("login", loginInfo);
-    const userRes = await login(loginInfo);
-    if (userRes && userRes.status === 200) {
+    try {
+      const userRes = await login(loginInfo);
+      // if (userRes && userRes.status === 200) {
       localStorage.setItem("currentUserId", userRes.data.id);
       localStorage.setItem("currentUserType", `${loginInfo.type}`);
       localStorage.setItem(
@@ -46,8 +47,10 @@ export const Login = () => {
           ? history.push(`/unit/${tenant.unit_id}`)
           : history.push(`/`);
       }
-    } else {
-      console.log("ERRRR not logged in");
+    } catch {
+      setErrorMessage(
+        "An error occurred. Double check your User Type (Landowner/Tenant), Email and Password. "
+      );
     }
   };
 
@@ -99,6 +102,9 @@ export const Login = () => {
           Login
         </button>
       </form>
+      {errorMessage && (
+        <p className="text-red-600 mt-4 p-4 bg-gray-100">{errorMessage}</p>
+      )}
     </div>
   );
 };

@@ -7,11 +7,12 @@ import { register, login, getTenant } from "../utils/services";
 export const SignUp = () => {
   const history = useHistory();
   const [registerInfo, setRegisterInfo] = useState({
-    type: "TENANT",
+    type: TENANT,
   });
   const { updateUserId, updateUserType, updateUserName } = useContext(
     UserContext
   );
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleChange = ({ target: { name, value } }) => {
     setRegisterInfo((prevState) => ({ ...prevState, [name]: value }));
@@ -19,39 +20,34 @@ export const SignUp = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("register", registerInfo);
-    const status = await register({ ...registerInfo }, registerInfo.type);
-    console.log("Status", status);
-
-    // Login User
-    if (status === 200) {
+    try {
+      const status = await register({ ...registerInfo }, registerInfo.type);
       const userRes = await login(registerInfo);
-      if (userRes && userRes.status === 200) {
-        localStorage.setItem("currentUserId", userRes.data.id);
-        localStorage.setItem("currentUserType", `${registerInfo.type}`);
-        localStorage.setItem(
-          "currentUserName",
-          `${userRes.data.first_name} ${userRes.data.last_name}`
-        );
 
-        updateUserId(userRes.data.id);
-        updateUserType(registerInfo.type);
-        updateUserName(`${userRes.data.first_name} ${userRes.data.last_name}`);
+      localStorage.setItem("currentUserId", userRes.data.id);
+      localStorage.setItem("currentUserType", `${registerInfo.type}`);
+      localStorage.setItem(
+        "currentUserName",
+        `${userRes.data.first_name} ${userRes.data.last_name}`
+      );
 
-        if (registerInfo.type === LANDOWNER) {
-          history.push("/properties");
-        } else {
-          const tenant = await getTenant(userRes.data.id);
-          /* Navigate to Tenant's Unit Page */
-          tenant.unit_id
-            ? history.push(`/unit/${tenant.unit_id}`)
-            : history.push(`/`);
-        }
+      updateUserId(userRes.data.id);
+      updateUserType(registerInfo.type);
+      updateUserName(`${userRes.data.first_name} ${userRes.data.last_name}`);
+
+      if (registerInfo.type === LANDOWNER) {
+        history.push("/properties");
       } else {
-        console.log("ERRRR not logged in");
+        const tenant = await getTenant(userRes.data.id);
+        /* Navigate to Tenant's Unit Page */
+        tenant.unit_id
+          ? history.push(`/unit/${tenant.unit_id}`)
+          : history.push(`/`);
       }
-    } else {
-      console.log("ERRRR not logged in");
+    } catch {
+      setErrorMessage(
+        "Unable to Register User. Double check registration information. "
+      );
     }
   };
 
@@ -124,6 +120,9 @@ export const SignUp = () => {
           Register
         </button>
       </form>
+      {errorMessage && (
+        <p className="text-red-600 mt-4 p-4 bg-gray-100">{errorMessage}</p>
+      )}
     </div>
   );
 };

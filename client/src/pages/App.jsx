@@ -9,7 +9,6 @@ import { Properties } from "./Properties";
 import { Property } from "./Property";
 import { Unit } from "./Unit";
 import { TenantHome } from "./TenantHome";
-import { NewMaintenance } from "./NewMaintenance";
 import UserContext from "../context/UserContext";
 
 const App = () => {
@@ -34,17 +33,14 @@ const App = () => {
           }}
         >
           <NavBar />
-          <Header title={`APMA`} />
           <Switch>
             <Route path="/about" component={About} />
-            <Route path="/header" component={Header} />
             <Route path="/login" component={Login} />
             <Route path="/register" component={SignUp} />
             <Route path="/tenantHome" component={TenantHome} />
             <Route path="/properties" component={Properties} />
             <Route path="/property/:pid" children={<Property />} />
             <Route path="/unit/:uid" children={<Unit />} />
-            <Route path="/addMaintenance/:uid" children={<NewMaintenance />} />
           </Switch>
         </UserContext.Provider>
       </BrowserRouter>

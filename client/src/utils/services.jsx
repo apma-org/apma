@@ -22,16 +22,10 @@ export const register = async (registerInfo, userType) => {
  * @returns User Object
  */
 export const login = async (loginInfo) => {
-  console.log("login service", loginInfo);
   const user = await axios.post(`${baseUrl}login`, {
     ...loginInfo,
   });
-  if (user.id === null) {
-    console.log("Something went wrong with loggin in this user");
-    return;
-  } else {
-    return user;
-  }
+  return user;
 };
 
 /**
@@ -127,14 +121,7 @@ export const getProperty = async (propertyId) => {
  */
 export const addProperty = async (propertyInfo) => {
   const property = await axios.post(`${baseUrl}property`, { ...propertyInfo });
-
-  // TODO: return message or boolean or nothing
-  if (property.status === 200) {
-    return property;
-  } else {
-    console.log(property.message);
-    return;
-  }
+  return property;
 };
 
 /**
@@ -192,13 +179,7 @@ export const getUnit = async (unitId) => {
  */
 export const addUnit = async (unitInfo) => {
   const unit = await axios.post(`${baseUrl}unit`, { ...unitInfo });
-
-  if (unit.status === 200) {
-    return unit;
-  } else {
-    console.log("Something went wrong with adding this unit");
-    return;
-  }
+  return unit;
 };
 
 /**
@@ -274,13 +255,7 @@ export const editMaintenance = async (maintenanceInfo, maintenanceId) => {
     `${baseUrl}maintenance/${maintenanceId}`,
     maintenanceInfo
   );
-
-  if (maintenance.status === 400) {
-    console.log("Something went wrong with updating this request");
-    return;
-  } else {
-    return maintenance;
-  }
+  return maintenance;
 };
 
 /**

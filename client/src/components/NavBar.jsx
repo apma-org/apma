@@ -15,10 +15,6 @@ export const NavBar = () => {
 const NavLogic = () => {
   const history = useHistory();
   const [navbarOpen, setNavbarOpen] = useState(false);
-  // const [currentUserName, setCurrentUserName] = useState(
-  //   localStorage.getItem("currentUserName" || null)
-  // );
-  // const currentUserType = localStorage.getItem("currentUserType");
   const {
     userId,
     userType,
@@ -29,8 +25,6 @@ const NavLogic = () => {
   } = useContext(UserContext);
 
   const handleLogout = () => {
-    // setCurrentUserName(null);
-    console.log("use context", userId, userName, userType);
     localStorage.clear(); // remove all storage
     updateUserId(null);
     updateUserType(null);

@@ -12,25 +12,31 @@ export const PropertyForm = ({ property, close, isAdding, userId }) => {
           city: "",
           zipcode: "",
           state: "",
-          mortgage: null,
-          tax: null,
-          insurance: null,
-          appreciation: null,
+          mortgage: undefined,
+          tax: undefined,
+          insurance: undefined,
+          appreciation: undefined,
         }
   );
 
   const handleChange = ({ target: { name, value } }) => {
     setPropertyInfo((prevState) => ({ ...prevState, [name]: value }));
   };
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (propertyInfo) {
-      const property = isAdding
-        ? await addProperty({ ...propertyInfo, landowner_id: userId })
-        : await editProperty(propertyInfo, propertyInfo.id);
-      // setPropertyInfo(property);
-      close(property);
+      try {
+        const property = isAdding
+          ? await addProperty({ ...propertyInfo, landowner_id: userId })
+          : await editProperty(propertyInfo, propertyInfo.id);
+        close(property);
+      } catch {
+        setErrorMessage(
+          "An error occured. Please double check all input fields. Apostrophes are not accepted"
+        );
+      }
     }
   };
 
@@ -124,6 +130,9 @@ export const PropertyForm = ({ property, close, isAdding, userId }) => {
           onChange={handleChange}
         />
       </div>
+      {errorMessage && (
+        <p className="text-red-600 mt-4 p-4 bg-gray-100">{errorMessage}</p>
+      )}
       <button
         type="submit"
         className="mt-10 py-3 bg-green-200 text-white w-full hover:bg-green-300 rounded-xl"

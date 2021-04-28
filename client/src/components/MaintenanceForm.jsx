@@ -18,7 +18,6 @@ export const MaintenanceForm = ({ unit_id, maintenance_id, request }) => {
         maintenance_id,
         unit_id
       );
-      console.log("blah M", data);
     }
   };
 
