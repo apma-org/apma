@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Modal } from "../components/Modal";
 import { PropertyCard } from "../components/PropertyCard";
 import { PropertyForm } from "../components/PropertyForm";
-import { getLandowner } from "../utils/services";
+import { getLandowner, getProperty } from "../utils/services";
 
 export const Properties = () => {
   const currentUserId = localStorage.getItem("currentUserId");
@@ -22,13 +22,20 @@ export const Properties = () => {
 
   const getProperties = async () => {
     const u = await getLandowner(currentUserId);
-    u && setProperties(u.data.properties);
+    var myProperties = []
+    for(var property of u.data.properties){
+      const data = await getProperty(property.id)
+      myProperties.push(data.data)
+    }
+    u && setProperties(myProperties);
     setIsLoading(false);
   };
 
   useEffect(() => {
     currentUserId && getProperties();
   }, [currentUserId]);
+
+  console.log(properties)
 
   return (
     <div className="max-w-full text-black m-10 px-5 py-5 rounded-xl shadow-xl">
@@ -60,10 +67,7 @@ export const Properties = () => {
               properties.map((e, idx) => (
                 <PropertyCard
                   key={idx}
-                  id={e.id}
-                  address={e.address}
-                  maintenanceRequests={e.maintenanceRequests}
-                  monthlyProfits={e.monthlyProfits}
+                  data={e}
                 />
               ))}
           </div>

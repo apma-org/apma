@@ -3,16 +3,26 @@ import { useHistory } from "react-router-dom";
 import property from "../images/property.svg";
 
 export const PropertyCard = ({
-  id,
-  address,
-  maintenanceRequests,
-  monthlyProfits,
+  data
 }) => {
   const history = useHistory();
 
   const handlePropertySelection = () => {
-    history.push(`/property/${id}`);
+    history.push(`/property/${data.id}`);
   };
+
+  console.log(data)
+
+  const getCosts = () => {
+    const costs = ['maintenance_costs', 'mortgage', 'insurance', 'tax']
+    var totalCosts = 0
+    for(var cost of costs){
+      if(data[cost]){
+        totalCosts += parseInt(data[cost])
+      }
+    }
+    return totalCosts
+  }
 
   return (
     <button
@@ -22,12 +32,12 @@ export const PropertyCard = ({
       <img className="w-16 h-16 object-cover" src={property} alt="property" />
       <div className="flex flex-col justify-center">
         <p className="font-bold">
-          {address} #{id}
+          {data.address}
         </p>
+        <p className="text-sm">Monthly Costs: ${getCosts()}</p>
         <p className="text-sm">
-          Pending Requests: {(maintenanceRequests && maintenanceRequests.length) || 0}
+          Units: {data.units.length}
         </p>
-        <p className="text-sm">Monthly Profit: ${monthlyProfits}</p>
       </div>
     </button>
   );

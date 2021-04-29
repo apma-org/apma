@@ -168,7 +168,7 @@ export const Unit = () => {
         <table className="table-auto w-full">
           <thead>
               <tr className="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
-              <th className="p-2.5" style={{ minWidth: "150px", textAlign: "left" }}>
+              <th className="p-1.5" style={{ minWidth: "150px", textAlign: "left" }}>
                 Date Created
               </th>
               <th style={{ textAlign: "left" }}>Request</th>
@@ -186,7 +186,7 @@ export const Unit = () => {
                   <td className="content-center" style={{ minWidth: "200px", textAlign:'center' }}>
                   {e.date_fixed ? e.date_fixed : (
                     <button
-                      className="bg-green-100 font-bold w-auto text-sm uppercase rounded-3xl p-2.5 hover:bg-green-200 text-white m-8"
+                      className="bg-green-100 font-bold w-auto text-sm uppercase rounded-3xl p-2.5 hover:bg-green-200 text-white m-4"
                       onClick={() => processMaintenanceRequest(e)}
                     >
                       Mark as Fixed
