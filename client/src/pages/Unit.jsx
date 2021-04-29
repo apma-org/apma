@@ -7,6 +7,7 @@ import {
   getUnit,
   deleteUnit,
   assignTenant,
+  assignTenantEmail,
   editMaintenance,
 } from "../utils/services";
 
@@ -72,7 +73,8 @@ export const Unit = () => {
 
   const handleTenantSubmit = async (e) => {
     e.preventDefault();
-    const success = await assignTenant(tenantFormData, uid);
+    const success = await assignTenantEmail(tenantFormData, uid);
+    setTenantFormData("")
     if (success) {
       getCurrentUnit();
     }
@@ -87,24 +89,44 @@ export const Unit = () => {
     uid && getCurrentUnit();
   }, [uid]);
 
+  console.log(unit)
+
   return (
     <div className="max-w-full text-black m-10 px-5 py-5 rounded-xl shadow-xl">
       <h3 className="text-2xl block justify-center text-center m-4">
-        Property #{unit.property_id}
+        Unit #{unit.id}
       </h3>
       <div className="text-center justify-center items-center">
         <p>Rent Amount: {unit.rent_amount}</p>
         <p>Rent Deposit: {unit.rent_deposit}</p>
-        <p>Lease: {unit.lease}</p>
+        <div>
+        <button
+              className="bg-green-100 font-bold w-auto text-sm uppercase rounded-3xl p-2.5 hover:bg-green-200 text-white m-4 mb-1"
+              onClick={() => window.open(unit.lease, "_blank")}
+            >
+              See Lease
+        </button>
+        </div>
+        <button
+          className="bg-green-100 font-bold w-auto text-sm uppercase rounded-3xl p-2.5 hover:bg-green-200 text-white m-4"
+          onClick={handleEditClick}
+        >
+          {showEditUnitModal ? "Close" : "Edit Unit"}
+        </button>
+        <button
+          className="bg-green-100 font-bold w-auto text-sm uppercase rounded-3xl p-2.5 hover:bg-green-200 text-white m-4 mb-12"
+          onClick={handleDeleteClick}
+        >
+          Delete Unit
+        </button>
         {unit.tenant ? (
           <div>
-            <p>Tenant #{unit.tenant.id}</p>
             <p>
-              Name: {unit.tenant.first_name} {unit.tenant.last_name}
+              Tenant Name: {unit.tenant.first_name} {unit.tenant.last_name}
             </p>
             <p>Email: {unit.tenant.email}</p>
             <button
-              className="bg-green-100 font-bold w-auto text-sm uppercase rounded-3xl p-2.5 hover:bg-green-200 text-white m-8"
+              className="bg-green-100 font-bold w-auto text-sm uppercase rounded-3xl p-2.5 hover:bg-green-200 text-white m-8 mt-4"
               onClick={handleUnassignClick}
             >
               Unassign Tenant
@@ -126,7 +148,7 @@ export const Unit = () => {
             )}
           </div>
         ) : (
-          <div className="text-center bg-green-100 justify-center items-center w-6/12">
+          <div className="text-center bg-green-100 p-2.5 justify-center items-center w-6/12 m-auto mb-16 rounded-xl">
             <form onSubmit={handleTenantSubmit}>
               <div className="mt-5">
                 <label>Assign Tenant:</label>
@@ -148,22 +170,16 @@ export const Unit = () => {
             </form>
           </div>
         )}
-        <button
-          className="bg-green-100 font-bold w-auto text-sm uppercase rounded-3xl p-2.5 hover:bg-green-200 text-white m-8"
-          onClick={handleEditClick}
-        >
-          {showEditUnitModal ? "Close" : "Edit"}
-        </button>
-        <button
-          className="bg-green-100 font-bold w-auto text-sm uppercase rounded-3xl p-2.5 hover:bg-green-200 text-white m-8"
-          onClick={handleDeleteClick}
-        >
-          Delete
-        </button>
       </div>
       <h3 className="text-2xl block justify-center text-center m-4">
          MAINTENANCE
       </h3>
+      {unit.maintenance && unit.maintenance.length == 0 &&
+        <h3 className="text-2xl block justify-center text-center m-2">
+          No Maintenance Requests
+        </h3>
+      }
+      {unit.maintenance && unit.maintenance.length != 0 && 
       <div className="bg-white shadow-md rounded my-6">
         <table className="table-auto w-full">
           <thead>
@@ -197,7 +213,7 @@ export const Unit = () => {
               ))}
           </tbody>
         </table>
-      </div>
+      </div>}
       {currentUserType === LANDOWNER && showEditUnitModal && (
         <Modal close={handleEditClick}>
           <UnitForm

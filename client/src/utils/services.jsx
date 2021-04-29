@@ -93,8 +93,20 @@ export const editTenant = async (tenantId, tenantInfo) => {
   return user.status === 200;
 };
 
+export const editTenantByEmail = async (tenantemail, tenantInfo) => {
+  const user = await axios.put(`${baseUrl}tenantEmail/${tenantemail}`, {
+    ...tenantInfo,
+  });
+
+  return user.status === 200;
+};
+
 export const assignTenant = async (tenant_id, unit_id) => {
   return await editTenant(tenant_id, { unit_id: unit_id });
+};
+
+export const assignTenantEmail = async (tenant_email, unit_id) => {
+  return await editTenantByEmail(tenant_email, { unit_id: unit_id });
 };
 
 /* Landowner Function */
