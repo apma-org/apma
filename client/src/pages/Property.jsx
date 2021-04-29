@@ -57,7 +57,6 @@ export const Property = () => {
 
   return (
     <div className="max-w-full text-black m-10 px-5 py-5 pb-10 rounded-xl shadow-xl">
-      <Header title={`APMA`} />
 
       {isLoading ? (
         <div> Loading...</div>

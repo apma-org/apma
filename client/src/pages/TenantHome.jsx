@@ -83,24 +83,37 @@ export const TenantHome = () => {
       {tenantData && tenantData.unit_id && (
         <>
           <h3 className="text-2xl block justify-center text-center">
-            {`${tenantData.property.address}, ${tenantData.property.city}, ${tenantData.property.state}, ${tenantData.property.zipcode}`}
+            {`${tenantData.property.address}, ${tenantData.property.city}, ${tenantData.property.state}, ${tenantData.property.zipcode} Unit #${tenantData.unit_id}`}
           </h3>
           <h3 className="text-2xl block justify-center text-center">
             Rent Amount: ${tenantData.unit.rent_amount}
           </h3>
+          <h3 className="text-2xl block justify-center text-center">
+            Rent Deposit: ${tenantData.unit.rent_deposit}
+          </h3>
+          <div className="flex flex-row space-x-20 justify-center items-center">
+            {tenantData.unit.lease &&
+            <button
+              onClick={() => window.open(tenantData.unit.lease, "_blank")}
+              className="bg-green-100 font-bold text-sm uppercase rounded-xl p-2.5 hover:bg-green-200 text-white m-4"
+            >
+              See My Lease
+            </button>}
+          </div>
           <div className="flex flex-row space-x-20 justify-center items-center">
             <button
               onClick={() => setShowMaintenanceForm(!showMaintenanceForm)}
-              className="bg-green-100 font-bold text-sm uppercase rounded-xl p-2.5 hover:bg-green-200 text-white m-8"
+              className="bg-green-100 font-bold text-sm uppercase rounded-xl p-2.5 hover:bg-green-200 text-white m-8 mb-4"
             >
               Submit Maintenance Request
             </button>
           </div>
-          <div className="overflow-x-auto">
+          {maintenance && maintenance.length !== 0 && <div className="overflow-x-auto">
+            <div className="bg-white shadow-md rounded my-6">
             <table className="table-auto w-full">
               <thead>
-                <tr>
-                  <th style={{ minWidth: "150px", textAlign: "left" }}>
+                <tr className="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+                  <th className="p-2.5" style={{ minWidth: "150px", textAlign: "left" }}>
                     Date Created
                   </th>
                   <th style={{ textAlign: "left" }}>Request</th>
@@ -111,10 +124,9 @@ export const TenantHome = () => {
                 </tr>
               </thead>
               <tbody>
-                {maintenance &&
-                  maintenance.map((e, idx) => (
+                {maintenance.map((e, idx) => (
                     <tr key={idx}>
-                      <td>{e.date_created}</td>
+                      <td className="p-2.5">{e.date_created}</td>
                       <td>{e.request}</td>
                       <td>
                         {e.date_fixed ? `Completed ${e.date_fixed}` : "Pending"}
@@ -143,7 +155,13 @@ export const TenantHome = () => {
                   ))}
               </tbody>
             </table>
-          </div>
+            </div>
+          </div>}
+          {maintenance && maintenance.length == 0 &&
+            <h3 className="text-2xl block justify-center text-center m-2">
+                No Maintenance Requests
+            </h3>
+          }
           {showDeleteMaintenanceModal && (
             <Modal close={() => setShowDeleteMaintenanceModal(false)}>
               <h4 className="text-xl block justify-center text-center">

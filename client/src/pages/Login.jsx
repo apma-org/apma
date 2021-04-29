@@ -41,11 +41,7 @@ export const Login = () => {
       if (loginInfo.type === LANDOWNER) {
         history.push("/properties");
       } else {
-        const tenant = await getTenant(userRes.data.id);
-        /* Navigate to Tenant's Unit Page */
-        tenant.unit_id
-          ? history.push(`/unit/${tenant.unit_id}`)
-          : history.push(`/`);
+        history.push("/tenantHome")
       }
     } catch {
       setErrorMessage(

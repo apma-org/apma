@@ -161,26 +161,42 @@ export const Unit = () => {
           Delete
         </button>
       </div>
-      <div>
-        {unit.maintenance &&
-          unit.maintenance.map((e) => (
-            <div>
-              <p>Request #{e.id} : </p>
-              <p>Unit #{e.unit_id} : </p>
-              <p>Message #{e.request} : </p>
-              <p>Date Created #{e.date_created} : </p>
-              <p>Date Fixed #{e.date_fixed} : </p>
-              {!e.date_fixed && (
-                <button
-                  className="bg-green-100 font-bold w-auto text-sm uppercase rounded-3xl p-2.5 hover:bg-green-200 text-white m-8"
-                  onClick={() => processMaintenanceRequest(e)}
-                >
-                  Mark as Fixed
-                </button>
-              )}
-            </div>
-          ))}
-        {}
+      <h3 className="text-2xl block justify-center text-center m-4">
+         MAINTENANCE
+      </h3>
+      <div className="bg-white shadow-md rounded my-6">
+        <table className="table-auto w-full">
+          <thead>
+              <tr className="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+              <th className="p-2.5" style={{ minWidth: "150px", textAlign: "left" }}>
+                Date Created
+              </th>
+              <th style={{ textAlign: "left" }}>Request</th>
+              <th className="content-center">
+                Date Fixed
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {unit.maintenance &&
+              unit.maintenance.map((e, idx) => (
+                <tr key={idx}>
+                  <td className="p-2.5">{e.date_created}</td>
+                  <td>{e.request}</td>
+                  <td className="content-center" style={{ minWidth: "200px", textAlign:'center' }}>
+                  {e.date_fixed ? e.date_fixed : (
+                    <button
+                      className="bg-green-100 font-bold w-auto text-sm uppercase rounded-3xl p-2.5 hover:bg-green-200 text-white m-8"
+                      onClick={() => processMaintenanceRequest(e)}
+                    >
+                      Mark as Fixed
+                    </button>
+                  )}
+                  </td>
+                </tr>
+              ))}
+          </tbody>
+        </table>
       </div>
       {currentUserType === LANDOWNER && showEditUnitModal && (
         <Modal close={handleEditClick}>

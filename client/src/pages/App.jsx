@@ -36,8 +36,8 @@ const App = () => {
           }}
         >
           <NavBar />
-          <Header title={`APMA`} />
           <Switch>
+            <Route exact path="/" component={About} />
             <Route path="/about" component={About} />
             <Route path="/login" component={Login} />
             <Route path="/register" component={SignUp} />

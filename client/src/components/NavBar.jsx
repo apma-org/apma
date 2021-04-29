@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
 import UserContext from "../context/UserContext";
-import { LANDOWNER } from "../utils/constants";
+import { LANDOWNER, TENANT } from "../utils/constants";
 
 // Nav Body
 export const NavBar = () => {
@@ -67,6 +67,17 @@ const NavLogic = () => {
               </Link>
             </li>
           )}
+          {userId && userType === TENANT && (
+            <li>
+              <Link
+                className="px-3 py-2 flex items-center uppercase leading-snug  hover:opacity-75"
+                to="/tenantHome"
+              >
+                <i className="fab fa-twitter text-lg leading-lg text-white opacity-75"></i>
+                <span className="ml-3.5">My Home</span>
+              </Link>
+            </li>
+          )}
           {!userId ? (
             <>
               <li>
@@ -99,15 +110,6 @@ const NavLogic = () => {
               </button>
             </li>
           )}
-          <li>
-            <Link
-              className="px-3 py-2 flex items-center uppercase leading-snug hover:opacity-75"
-              to="/about"
-            >
-              <i className="fab fa-twitter text-lg leading-lg text-white opacity-75"></i>
-              <span className="ml-3.5">About</span>
-            </Link>
-          </li>
         </ul>
       </div>
     </div>
