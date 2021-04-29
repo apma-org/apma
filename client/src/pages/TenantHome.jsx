@@ -92,7 +92,7 @@ export const TenantHome = () => {
             Rent Deposit: ${tenantData.unit.rent_deposit}
           </h3>
           <div className="flex flex-row space-x-20 justify-center items-center">
-            {tenantData.unit.lease &&
+            {tenantData.unit.lease && tenantData.unit.lease.includes('.com') &&
             <button
               onClick={() => window.open(tenantData.unit.lease, "_blank")}
               className="bg-green-100 font-bold text-sm uppercase rounded-xl p-2.5 hover:bg-green-200 text-white m-4"

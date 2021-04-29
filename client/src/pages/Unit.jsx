@@ -100,12 +100,13 @@ export const Unit = () => {
         <p>Rent Amount: {unit.rent_amount}</p>
         <p>Rent Deposit: {unit.rent_deposit}</p>
         <div>
+        {unit.lease && unit.lease != "" &&
         <button
               className="bg-green-100 font-bold w-auto text-sm uppercase rounded-3xl p-2.5 hover:bg-green-200 text-white m-4 mb-1"
               onClick={() => window.open(unit.lease, "_blank")}
             >
               See Lease
-        </button>
+        </button>}
         </div>
         <button
           className="bg-green-100 font-bold w-auto text-sm uppercase rounded-3xl p-2.5 hover:bg-green-200 text-white m-4"

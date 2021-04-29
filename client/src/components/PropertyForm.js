@@ -16,6 +16,7 @@ export const PropertyForm = ({ property, close, isAdding, userId }) => {
           tax: undefined,
           insurance: undefined,
           appreciation: undefined,
+          maintenance_costs: undefined
         }
   );
 
@@ -26,6 +27,7 @@ export const PropertyForm = ({ property, close, isAdding, userId }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(propertyInfo)
     if (propertyInfo) {
       try {
         const property = isAdding
@@ -65,23 +67,23 @@ export const PropertyForm = ({ property, close, isAdding, userId }) => {
         />
       </div>
       <div className="mt-5">
-        <label>Zipcode</label>
-        <input
-          required
-          type="text"
-          name="zipcode"
-          value={propertyInfo.zipcode}
-          className="text-gray-900 block w-full p-2 border-none rounded-lg"
-          onChange={handleChange}
-        />
-      </div>
-      <div className="mt-5">
         <label>State</label>
         <input
           required
           type="text"
           name="state"
           value={propertyInfo.state}
+          className="text-gray-900 block w-full p-2 border-none rounded-lg"
+          onChange={handleChange}
+        />
+      </div>
+      <div className="mt-5">
+        <label>Zipcode</label>
+        <input
+          required
+          type="text"
+          name="zipcode"
+          value={propertyInfo.zipcode}
           className="text-gray-900 block w-full p-2 border-none rounded-lg"
           onChange={handleChange}
         />
@@ -115,6 +117,17 @@ export const PropertyForm = ({ property, close, isAdding, userId }) => {
           type="number"
           name="insurance"
           value={propertyInfo.insurance}
+          className="text-gray-900 block w-full p-2 border-none rounded-lg"
+          onChange={handleChange}
+        />
+      </div>
+      <div className="mt-5">
+        <label>Maintenance Costs</label>
+        <input
+          required
+          type="number"
+          name="maintenance_costs"
+          value={propertyInfo.maintenance_costs}
           className="text-gray-900 block w-full p-2 border-none rounded-lg"
           onChange={handleChange}
         />
