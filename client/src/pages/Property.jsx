@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
-import { getProperty, deleteProperty } from "../utils/services";
+import { getProperty, deleteProperty, getUnit } from "../utils/services";
 import { Header } from "../components/Header";
 import { Modal } from "../components/Modal";
 import { DeleteModal } from "../components/ModalTypes";
@@ -46,14 +46,45 @@ export const Property = () => {
   };
 
   const getCurrentProperty = async () => {
-    const propertyData = await getProperty(pid);
-    setProperty(propertyData.data);
+    var propertyData = await getProperty(pid);
+    var propertyData = propertyData.data
+    var unitList = []
+    for(var unit of propertyData.units){
+      const unitData = await getUnit(unit.id)
+      unitList.push(unitData.data)
+    }
+    propertyData.units = unitList
+    setProperty(propertyData);
     setIsLoading(false);
   };
+
+  console.log(property)
 
   useEffect(() => {
     pid && getCurrentProperty();
   }, [pid]);
+
+  const getRevenue = () => {
+    var sum = 0;
+    for(var unit of property.units){
+      if(unit.tenant){
+        sum += parseInt(unit.rent_amount)
+      }
+    }
+    return sum
+  }
+
+  const getPotentialRevenue = () => {
+    var sum = 0;
+    for(var unit of property.units){
+      sum += parseInt(unit.rent_amount)
+    }
+    return sum
+  }
+
+  const getTotalCosts = () => {
+    return parseInt(property.mortgage) + parseInt(property.tax) + parseInt(property.insurance) + parseInt(property.maintenance_costs || "0")
+  }
 
   return (
     <div className="max-w-full text-black m-10 px-5 py-5 pb-10 rounded-xl shadow-xl">
@@ -63,24 +94,24 @@ export const Property = () => {
       ) : (
         <>
           <h3 className="text-2xl block justify-center text-center m-4">
-            {property.city}, {property.state} #{property.id}
-            <br />
-            Appreciation:${property.appreciation}/month
+            {property.address}, {property.city}, {property.state}
           </h3>
-
+          <h3 className="text-1xl block justify-center text-center m-4">
+            Mortgage: ${property.mortgage}/month <br/>
+            Tax: ${property.tax}/month <br/>
+            Insurance: ${property.insurance}/month <br/>
+            Maintenance Costs: ${property.maintenance_costs || "0.00"}/month <br/>
+          </h3>
+          <h3 className="text-1xl block justify-center text-center m-4">
+            Total Costs: ${getTotalCosts()}/month <br/>
+            Total Revenue: ${getRevenue()}/month <br/>
+            Total Potential Revenue: ${getPotentialRevenue()}/month
+          </h3>
+          <h3 className="text-1xl block justify-center text-center m-4">
+            Total Profit: ${getRevenue() - getTotalCosts()}/month <br/>
+            Total Potential Profit: ${getPotentialRevenue() - getTotalCosts()}/month <br/>
+          </h3>
           <div className="flex flex-row justify-center items-center">
-            <button
-              className="bg-green-100 font-bold text-sm uppercase rounded-xl hover:bg-green-200 text-white p-2 m-4 shadow-lg"
-              onClick={handleEditClick}
-            >
-              Edit Property
-            </button>
-            <button
-              className="bg-green-100 font-bold text-sm uppercase rounded-xl hover:bg-green-200 text-white p-2 m-4 shadow-lg"
-              onClick={handleDeleteClick}
-            >
-              Delete Property
-            </button>
             {!isAddingUnit ? (
               <button
                 className="bg-green-100 font-bold text-sm uppercase rounded-xl  hover:bg-green-200 text-white p-2 m-4 shadow-lg"
@@ -97,6 +128,18 @@ export const Property = () => {
                 />
               </Modal>
             )}
+            <button
+              className="bg-green-100 font-bold text-sm uppercase rounded-xl hover:bg-green-200 text-white p-2 m-4 shadow-lg"
+              onClick={handleEditClick}
+            >
+              Edit Property
+            </button>
+            <button
+              className="bg-green-100 font-bold text-sm uppercase rounded-xl hover:bg-green-200 text-white p-2 m-4 shadow-lg"
+              onClick={handleDeleteClick}
+            >
+              Delete Property
+            </button>
           </div>
 
           <h3 className="text-2xl block justify-center text-center m-4">
@@ -107,11 +150,7 @@ export const Property = () => {
               property.units.map((e) => (
                 <UnitCard
                   key={e.id}
-                  id={e.id}
-                  property={e.property_id}
-                  rent_amount={e.rent_amount}
-                  rent_deposit={e.rent_deposit}
-                  lease={e.lease}
+                  data={e}
                 />
               ))}
           </div>

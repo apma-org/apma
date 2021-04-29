@@ -2,16 +2,12 @@ import React from "react";
 import { useHistory } from "react-router";
 
 export const UnitCard = ({
-  id,
-  property,
-  rent_amount,
-  rent_deposit,
-  lease,
+  data
 }) => {
   const history = useHistory();
 
   const handleUnitSelection = () => {
-    history.push(`/unit/${id}`);
+    history.push(`/unit/${data.id}`);
   };
 
   return (
@@ -20,12 +16,11 @@ export const UnitCard = ({
       onClick={handleUnitSelection}
     >
       <div className="overflow-hidden">
-        <p className="font-bold">Unit: # {id}</p>
-        <p>Property: {property}</p>
-        <p>Rent Amount: {rent_amount}</p>
-        <p>Rent Deposit: {rent_deposit}</p>
-        <p>Unpaid: {rent_amount - rent_deposit}</p>
-        <p>Lease: {lease}</p>
+        <p className="font-bold">Unit: {data.id}</p>
+        <p>Rent Amount: ${data.rent_amount}</p>
+        <p>Rent Deposit: ${data.rent_deposit}</p>
+        <p>Tenant: {data.tenant ? `${data.tenant.first_name} ${data.tenant.last_name}` : "Vacant"} </p>
+        <p>Pending Maintenance: {data.maintenance.filter(m => m.date_fixed == null).length}</p>
       </div>
     </button>
   );
