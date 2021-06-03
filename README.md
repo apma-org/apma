@@ -1,4 +1,4 @@
-# apma
+# APMA
 
 ## Requirements
 
@@ -22,3 +22,5 @@ Node >= Version 12.0.0
 
 - [Shania Dhani](https://github.com/sdhani)
 - [Jordan Yaqoob](https://github.com/jordan722)
+
+> ✨ Special thanks to our [👻](https://github.com/boubascript) contributor for inspiring the project name. May the legacy continue. ✨
